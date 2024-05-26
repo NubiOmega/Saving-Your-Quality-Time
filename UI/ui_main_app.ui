@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>520</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>520</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>520</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Saving Your Quality Time</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="BrowseFile_btn">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>33</y>
+      <width>140</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pilih File / Folder .xlsx</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="openFileFolder_btn">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>530</y>
+      <width>140</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Buka Output Folder .xlsx</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="progressBar">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>280</y>
+      <width>351</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>24</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_PT">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>0</y>
+      <width>301</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>PT. CAYADEWI SEHAT INDONESIA ABADI</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listItems_outputFilesXLSX">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>320</y>
+      <width>481</width>
+      <height>200</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listItems_filesSource">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>70</y>
+      <width>481</width>
+      <height>200</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="isidansalinData_btn">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>280</y>
+      <width>120</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ISI DATA EXCEL</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="MenuBar_Setting">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>520</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuTools_Tambahan">
+    <property name="title">
+     <string>Tools Tambahan</string>
+    </property>
+    <addaction name="actionBatch_Convert_XLS_to_XLSX"/>
+    <addaction name="actionValidation_XLS_XLSX"/>
+   </widget>
+   <addaction name="menuTools_Tambahan"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionBatch_Convert_XLS_to_XLSX">
+   <property name="text">
+    <string>Batch Convert XLS to XLSX</string>
+   </property>
+  </action>
+  <action name="actionValidation_XLS_XLSX">
+   <property name="text">
+    <string>Validation XLS - XLSX</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
