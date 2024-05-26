@@ -123,6 +123,19 @@
      <string>ISI DATA EXCEL</string>
     </property>
    </widget>
+   <widget class="QTextEdit" name="textEditDragDropFiles">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>30</y>
+      <width>321</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Drag &amp; Drop Files Here ...</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="MenuBar_Setting">
    <property name="geometry">

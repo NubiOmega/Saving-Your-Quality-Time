@@ -48,6 +48,9 @@ class Ui_MainWindow(object):
         self.isidansalinData_btn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.isidansalinData_btn.setGeometry(QtCore.QRect(20, 280, 120, 25))
         self.isidansalinData_btn.setObjectName("isidansalinData_btn")
+        self.textEditDragDropFiles = QtWidgets.QTextEdit(parent=self.centralwidget)
+        self.textEditDragDropFiles.setGeometry(QtCore.QRect(170, 30, 321, 31))
+        self.textEditDragDropFiles.setObjectName("textEditDragDropFiles")
         MainWindow.setCentralWidget(self.centralwidget)
         self.MenuBar_Setting = QtWidgets.QMenuBar(parent=MainWindow)
         self.MenuBar_Setting.setGeometry(QtCore.QRect(0, 0, 520, 22))
@@ -76,16 +79,17 @@ class Ui_MainWindow(object):
         self.openFileFolder_btn.setText(_translate("MainWindow", "Buka Output Folder .xlsx"))
         self.label_PT.setText(_translate("MainWindow", "PT. CAYADEWI SEHAT INDONESIA ABADI"))
         self.isidansalinData_btn.setText(_translate("MainWindow", "ISI DATA EXCEL"))
+        self.textEditDragDropFiles.setPlaceholderText(_translate("MainWindow", "Drag & Drop Files Here ..."))
         self.menuTools_Tambahan.setTitle(_translate("MainWindow", "Tools Tambahan"))
         self.actionBatch_Convert_XLS_to_XLSX.setText(_translate("MainWindow", "Batch Convert XLS to XLSX"))
         self.actionValidation_XLS_XLSX.setText(_translate("MainWindow", "Validation XLS - XLSX"))
 
 
-# if __name__ == "__main__":
-#     import sys
-#     app = QtWidgets.QApplication(sys.argv)
-#     MainWindow = QtWidgets.QMainWindow()
-#     ui = Ui_MainWindow()
-#     ui.setupUi(MainWindow)
-#     MainWindow.show()
-#     sys.exit(app.exec())
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec())
