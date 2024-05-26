@@ -1,0 +1,19 @@
+pip install 
+PyQt6==6.4.2 
+PyQt6-Qt6==6.4.3 
+PyQt6-WebEngine==6.4.0 
+PyQt6-WebEngine-Qt6==6.4.3 
+pyqt6-plugins==6.4.2.2.3 
+pyqt6-tools==6.4.2.3.3 
+streamlit
+openpyxl
+pandas
+
+gunakan virtual environment terpisah untuk menggenerate file resource .qrc
+
+Command Terminal:
+- python -m venv venv
+- venv\Scripts\activate
+- pip install pyqt6rc==0.6.1
+
+-deactivate // menonaktifkan venv

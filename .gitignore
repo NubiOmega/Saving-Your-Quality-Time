@@ -2,3 +2,8 @@ __pycache__
 App/__pycache__
 UI/__pycache__
 Utilities/__pycache__
+.gitignore
+resources.py
+resources.qrc
+UI/styles.qss
+
