@@ -112,17 +112,17 @@ class MainWindow(QtWidgets.QMainWindow):
                 fill_suhu2 = config.get('Pengaturan Fill Warna', 'Fillsuhu2', fallback='#FFFFFF')
                 fill_holding_time = config.get('Pengaturan Fill Warna', 'FillHoldingTime', fallback='#FFFFFF')
                 # Tampilkan warna suhu 1 pada label
-                self.ui.fillWarnaSuhu1_label.setStyleSheet(f"background-color: {fill_suhu1};")
+                self.ui.pilihWarnaSuhu1_btn.setStyleSheet(f"background-color: {fill_suhu1};")
                 self.fill_suhu1 = PatternFill(start_color=fill_suhu1.lstrip('#'),
                                                      end_color=fill_suhu1.lstrip('#'),
                                                      fill_type="solid")
                 # Tampilkan warna suhu 2 pada label
-                self.ui.fillWarnaSuhu2_label.setStyleSheet(f"background-color: {fill_suhu2};")
+                self.ui.pilihWarnaSuhu2_btn.setStyleSheet(f"background-color: {fill_suhu2};")
                 self.fill_suhu2 = PatternFill(start_color=fill_suhu2.lstrip('#'),
                                                      end_color=fill_suhu2.lstrip('#'),
                                                      fill_type="solid")
                 # Tampilkan warna holding time pada label
-                self.ui.fillWarnaHoldingTime_label.setStyleSheet(f"background-color: {fill_holding_time};")
+                self.ui.pilihWarnaHoldingTime_btn.setStyleSheet(f"background-color: {fill_holding_time};")
                 self.fill_holding_time = PatternFill(start_color=fill_holding_time.lstrip('#'),
                                                      end_color=fill_holding_time.lstrip('#'),
                                                      fill_type="solid")
