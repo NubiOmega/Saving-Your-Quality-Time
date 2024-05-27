@@ -117,6 +117,24 @@
     <property name="cursor" stdset="0">
      <cursorShape>ClosedHandCursor</cursorShape>
     </property>
+    <property name="toolTip">
+     <string>Jatuhkan File Excel .xlsx disini</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::NoTextInteraction</set>
+    </property>
     <property name="placeholderText">
      <string>Drag &amp; Drop File .xlsx Disini ...</string>
     </property>
@@ -247,7 +265,7 @@
      </rect>
     </property>
     <property name="text">
-     <string> Waktu Holding Sheet Data ( Menit : Detik )</string>
+     <string> Waktu Holding Sheet Data ( HH:MM:SS)</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="holdingTime_lineEdit">
@@ -263,7 +281,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="placeholderText">
-     <string>e.g. 10:30</string>
+     <string>e.g. 00:09:00</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pilihWarnaHoldingTime_btn">
