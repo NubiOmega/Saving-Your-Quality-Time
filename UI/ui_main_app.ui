@@ -275,9 +275,12 @@
       <height>24</height>
      </rect>
     </property>
+<<<<<<< HEAD
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
+=======
+>>>>>>> 540e475115fc9073da9d588f0a97235a989b9780
     <property name="text">
      <string/>
     </property>
@@ -291,9 +294,12 @@
       <height>24</height>
      </rect>
     </property>
+<<<<<<< HEAD
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
+=======
+>>>>>>> 540e475115fc9073da9d588f0a97235a989b9780
     <property name="text">
      <string/>
     </property>
@@ -307,9 +313,12 @@
       <height>24</height>
      </rect>
     </property>
+<<<<<<< HEAD
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
+=======
+>>>>>>> 540e475115fc9073da9d588f0a97235a989b9780
     <property name="text">
      <string/>
     </property>
