@@ -6,27 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>520</width>
+    <width>892</width>
     <height>600</height>
    </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>520</width>
-    <height>600</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>520</width>
-    <height>600</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>Saving Your Quality Time</string>
@@ -126,14 +108,237 @@
    <widget class="QTextEdit" name="textEditDragDropFiles">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>30</y>
-      <width>321</width>
-      <height>31</height>
+      <x>520</x>
+      <y>70</y>
+      <width>351</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="placeholderText">
-     <string>Drag &amp; Drop Files Here ...</string>
+     <string>Drag &amp; Drop File .xlsx Disini ...</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cekValidasiFile_btn">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>450</y>
+      <width>142</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cek Validasi File .xlsx</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="konversiXLStoXLSX_btn">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>480</y>
+      <width>141</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Konversi .xls Ke .xlsx</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="simpanPengaturan_btn">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>410</y>
+      <width>142</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Simpan Konfigurasi</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pengaturan_btn">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>190</y>
+      <width>99</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pengaturan Suhu</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="batasSuhu1Label">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>220</y>
+      <width>163</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Batas Suhu 1 (e.g. 40.0 derajat )</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="batasSuhu1DoubleSpinBox">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>220</y>
+      <width>71</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="decimals">
+     <number>1</number>
+    </property>
+    <property name="value">
+     <double>40.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLabel" name="batasRangeSuhu2EG710DerajatLabel">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>250</y>
+      <width>202</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Batas Range Suhu 2 ( e.g. 71.0 derajat )</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="batasRangeSuhu2EG710DerajatDoubleSpinBox">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>250</y>
+      <width>71</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="decimals">
+     <number>1</number>
+    </property>
+    <property name="value">
+     <double>71.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLabel" name="WaktuHoldingLabel">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>280</y>
+      <width>231</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string> Waktu Holding Sheet Data ( Menit : Detik )</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>280</y>
+      <width>81</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>e.g. 10:30</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pilihWarnaHoldingTime_btn">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>310</y>
+      <width>151</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pilih Warna Holding Time</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pilihWarnaSuhu1_btn">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>340</y>
+      <width>151</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pilih Warna Suhu 1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pilihWarnaSuhu2_btn">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>370</y>
+      <width>151</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pilih Warna Suhu 2</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="fillWarnaHoldingTime_label">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>310</y>
+      <width>141</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Fill Warna Holding Time</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="fillWarnaSuhu1_label">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>340</y>
+      <width>141</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Fill Warna Suhu 1</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="fillWarnaSuhu2_label">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>370</y>
+      <width>141</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Fill Warna Suhu 2</string>
     </property>
    </widget>
   </widget>
@@ -142,7 +347,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>520</width>
+     <width>892</width>
      <height>22</height>
     </rect>
    </property>

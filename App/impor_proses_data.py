@@ -49,7 +49,7 @@ def start_import_excel(self):
 
     # Opsional: Menampilkan pesan jika ada file yang gagal diproses
     if failed_files:
-        QtWidgets.QMessageBox.warning(self, 'Gagal', f'{len(failed_files)} Total Baris Excel yang gagal diproses karena DATA SUHU TIDAK VALID. Lihat "impor_proses_excel_data_log.txt" untuk detailnya.')
+        QtWidgets.QMessageBox.warning(self, 'Gagal', f'{len(failed_files)} Total Baris Excel yang gagal diproses karena DATA SUHU TIDAK VALID.\nLihat "impor_proses_excel_data_log.txt" untuk detailnya.')
 
 def confirm_continue(self):
     reply = QtWidgets.QMessageBox.question(self, "Konfirmasi", 
@@ -118,6 +118,10 @@ def import_excel_with_progress(self, file_path, failed_files):
         'kolom_f': {'suhu': [], 'waktu': []}
     }
 
+    # Mendapatkan nilai dari DoubleSpinBox
+    batas_suhu_1 = self.get_batas_suhu_1()
+    batas_suhu_2 = self.get_batas_suhu_2()
+
     # Loop untuk menyalin isi konten kolom H, I, K, dan M
     for i, row in enumerate(range(4, ws.max_row + 1), 1):
         ws[f'B{i + 3}'] = ws[f'H{row}'].value
@@ -137,15 +141,16 @@ def import_excel_with_progress(self, file_path, failed_files):
                     error_message = f"{os.path.basename(file_path)} - Baris {row}: Nilai data tidak valid untuk konversi ke desimal di kolom {kolom}"
                     failed_files.append(error_message)
                     continue  # Lewati iterasi saat ini jika terjadi kesalahan konversi
-
-                if suhu >= 71.0:
+                
+                # Memeriksa apakah suhu di atas nilai default 71.0 Derajat
+                if suhu >= batas_suhu_2:
                     ws[f'{kolom_waktu}{i + 3}'].fill = self.fill_kuning
                     sel_suhu.fill = self.fill_kuning
                     kenaikan_suhu_71 = True
-                elif suhu < 71.0 and kenaikan_suhu_71:
+                elif suhu < batas_suhu_2 and kenaikan_suhu_71:
                     kenaikan_suhu_71 = False
 
-                # Memeriksa apakah suhu di atas 41.0 derajat
+                # Memeriksa apakah suhu di atas nilai default 40.0 Derajat
                 try:
                     if ws[f'{kolom}{i + 2}'].value is not None and isinstance(ws[f'{kolom}{i + 2}'].value, (int, float)):
                         suhu_sebelumnya = float(ws[f'{kolom}{i + 2}'].value)
@@ -158,8 +163,8 @@ def import_excel_with_progress(self, file_path, failed_files):
                     failed_files.append(error_message)
                     continue  # Lewati iterasi saat ini jika terjadi kesalahan konversi
 
-                # Menandai suhu yang melebihi 41.0 derajat sesuai dengan kriteria
-                if suhu > 41.0 and (suhu_sebelumnya is not None and suhu_sebelumnya <= 41.0):
+                # Menandai suhu yang melebihi nilai default 40.0 Derajat sesuai dengan kriteria
+                if suhu > batas_suhu_1 and (suhu_sebelumnya is not None and suhu_sebelumnya <= batas_suhu_1):
                     data_suhu_waktu[label]['waktu'].append(ws[f'{kolom_waktu}{i + 3}'].value)
                     data_suhu_waktu[label]['suhu'].append(suhu)
                     ws[f'{kolom_waktu}{i + 3}'].fill = self.fill_kuning
