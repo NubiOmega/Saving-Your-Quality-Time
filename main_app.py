@@ -13,7 +13,6 @@ from App.validasi_data_waktu import *
 from Utilities.dragndrop_files_func import *
 from Utilities.pengaturan_func import *
 from configparser import ConfigParser
-from PyQt6.QtWidgets import QColorDialog  # Mengimpor QColorDialog untuk memilih warna
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -28,8 +27,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.actionBatch_Convert_XLS_to_XLSX.triggered.connect(self.buka_window_batch_convert)
         self.ui.actionValidation_XLS_XLSX.triggered.connect(self.buka_window_compare_xls_xlsx)
 
-        self.ui.pilihWarnaHoldingTime_btn.clicked.connect(self.pilih_warna_holding_time)  # Menghubungkan tombol pilih warna
-        self.ui.simpanPengaturan_btn.clicked.connect(self.simpan_pengaturan_conf)  # Menghubungkan tombol simpan
+        self.ui.pilihWarnaSuhu1_btn.clicked.connect(self.pilih_warna_suhu1)  # Menghubungkan tombol pilih warna suhu 1
+        self.ui.pilihWarnaSuhu2_btn.clicked.connect(self.pilih_warna_suhu2)  # Menghubungkan tombol pilih warna suhu 2
+        self.ui.pilihWarnaHoldingTime_btn.clicked.connect(self.pilih_warna_holding_time)  # Menghubungkan tombol pilih warna holding time
+        self.ui.simpanPengaturan_btn.clicked.connect(self.simpan_pengaturan_conf)  # Menghubungkan tombol simpan konfigurasi
 
         # Context menu untuk listItems_filesSource
         self.ui.listItems_filesSource.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
@@ -37,13 +38,14 @@ class MainWindow(QtWidgets.QMainWindow):
         
         # Context menu untuk listItems_outputFilesXLSX
         self.ui.listItems_outputFilesXLSX.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
-        self.ui.listItems_filesSource.customContextMenuRequested.connect(self.open_output_context_menu)
+        self.ui.listItems_outputFilesXLSX.customContextMenuRequested.connect(self.open_output_context_menu)
 
         # Variabel untuk melacak pilihan menimpa otomatis
         self.auto_overwrite = False
+
         # Membuat objek untuk memberikan warna background kuning dan merah
         self.fill_kuning = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
-        self.fill_merah = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
+        # self.fill_merah = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
 
         # Menghubungkan QTextEdit yang sudah ada dengan fungsi drag and drop
         self.ui.textEditDragDropFiles.setAcceptDrops(True)
@@ -64,11 +66,17 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def simpan_pengaturan_conf(self):
         # Ambil nilai dari QDoubleSpinBox
-        batas_suhu_1 = self.ui.batasSuhu1DoubleSpinBox.value()
-        batas_suhu_2 = self.ui.batasRangeSuhu2EG710DerajatDoubleSpinBox.value()
+        batas_suhu_1 = self.ui.batasSuhu1_DoubleSpinBox.value()
+        batas_suhu_2 = self.ui.batasRangeSuhu2_DoubleSpinBox.value()
         
+        # Ambil warna suhu dari QLabel
+        warna_suhu1 = self.ui.fillWarnaSuhu1_label.styleSheet().split("background-color:")[1].strip().replace(";", "")
+        warna_suhu2 = self.ui.fillWarnaSuhu2_label.styleSheet().split("background-color:")[1].strip().replace(";", "")
         # Ambil warna holding time dari QLabel
         warna_holding_time = self.ui.fillWarnaHoldingTime_label.styleSheet().split("background-color:")[1].strip().replace(";", "")
+        
+        # Ambil nilai holding time dari QLineEdit
+        holding_time = self.ui.holdingTime_lineEdit.text()
 
         # Simpan nilai ke file konfigurasi
         config = ConfigParser()
@@ -77,9 +85,12 @@ class MainWindow(QtWidgets.QMainWindow):
             'Suhu2': batas_suhu_2
         }
         config['Pengaturan Fill Warna'] = {
-            'FillSuhu1': '#FFFF00',
-            'FillSuhu2': '#FF0000',
+            'FillSuhu1': warna_suhu1,
+            'FillSuhu2': warna_suhu2,
             'FillHoldingTime': warna_holding_time
+        }
+        config['Pengaturan Holding Time'] = {
+            'HoldingTime': holding_time
         }
         with open('pengaturan_app.conf', 'w') as configfile:
             config.write(configfile)
@@ -94,51 +105,43 @@ class MainWindow(QtWidgets.QMainWindow):
             if 'Pengaturan Suhu' in config:
                 batas_suhu_1 = config.getfloat('Pengaturan Suhu', 'Suhu1')
                 batas_suhu_2 = config.getfloat('Pengaturan Suhu', 'Suhu2')
-                self.ui.batasSuhu1DoubleSpinBox.setValue(batas_suhu_1)
-                self.ui.batasRangeSuhu2EG710DerajatDoubleSpinBox.setValue(batas_suhu_2)
+                self.ui.batasSuhu1_DoubleSpinBox.setValue(batas_suhu_1)
+                self.ui.batasRangeSuhu2_DoubleSpinBox.setValue(batas_suhu_2)
             if 'Pengaturan Fill Warna' in config:
-                fill_suhu1 = config.get('Pengaturan Fill Warna', 'FillSuhu1')
-                fill_suhu2 = config.get('Pengaturan Fill Warna', 'FillSuhu2')
+                fill_suhu1 = config.get('Pengaturan Fill Warna', 'Fillsuhu1', fallback='#FFFFFF')
+                fill_suhu2 = config.get('Pengaturan Fill Warna', 'Fillsuhu2', fallback='#FFFFFF')
                 fill_holding_time = config.get('Pengaturan Fill Warna', 'FillHoldingTime', fallback='#FFFFFF')
+                # Tampilkan warna suhu 1 pada label
+                self.ui.fillWarnaSuhu1_label.setStyleSheet(f"background-color: {fill_suhu1};")
+                self.fill_suhu1 = PatternFill(start_color=fill_suhu1.lstrip('#'),
+                                                     end_color=fill_suhu1.lstrip('#'),
+                                                     fill_type="solid")
+                # Tampilkan warna suhu 2 pada label
+                self.ui.fillWarnaSuhu2_label.setStyleSheet(f"background-color: {fill_suhu2};")
+                self.fill_suhu2 = PatternFill(start_color=fill_suhu2.lstrip('#'),
+                                                     end_color=fill_suhu2.lstrip('#'),
+                                                     fill_type="solid")
                 # Tampilkan warna holding time pada label
                 self.ui.fillWarnaHoldingTime_label.setStyleSheet(f"background-color: {fill_holding_time};")
+                self.fill_holding_time = PatternFill(start_color=fill_holding_time.lstrip('#'),
+                                                     end_color=fill_holding_time.lstrip('#'),
+                                                     fill_type="solid")
+            if 'Pengaturan Holding Time' in config:
+                holding_time = config.get('Pengaturan Holding Time', 'HoldingTime', fallback='9:00')
+                self.ui.holdingTime_lineEdit.setText(holding_time)
         except Exception as e:
             print(f'Error membaca file pengaturan: {e}')
 
-    def pilih_warna_holding_time(self):
-        color = QColorDialog.getColor()
-        if color.isValid():
-            hex_color = color.name()  # Mendapatkan warna dalam format hex
-            # Set warna yang dipilih ke label
-            self.ui.fillWarnaHoldingTime_label.setStyleSheet(f"background-color: {hex_color};")
-        
     # Metode dari Utilities/windows_func.py
-    def browse_files(self):
-        browse_files(self)
-
-    def validate_and_start_import(self):
-        validate_and_start_import(self)
-
-    def open_selected_output_folder(self):
-        open_selected_output_folder(self)
-
-    def open_selected_source_file(self):
-        open_selected_source_file(self)
-
-    def open_selected_source_folder(self):
-        open_selected_source_folder(self)
-
-    def open_output_context_menu(self):
-        open_output_context_menu(self)
-
-    def open_source_context_menu(self):
-        open_source_context_menu(self)
-
-    def open_selected_output_file(self):
-        open_selected_output_file(self)
-
-    def open_output_folder(self):
-        open_output_folder(self)
+    browse_files = browse_files
+    validate_and_start_import = validate_and_start_import
+    open_selected_output_folder = open_selected_output_folder
+    open_selected_source_file = open_selected_source_file
+    open_selected_source_folder = open_selected_source_folder
+    open_output_context_menu = open_output_context_menu
+    open_source_context_menu = open_source_context_menu
+    open_selected_output_file = open_selected_output_file
+    open_output_folder = open_output_folder
 
     # Metode dari App/impor_proses_data.py
     def start_import_excel(self):
@@ -157,17 +160,17 @@ class MainWindow(QtWidgets.QMainWindow):
         cek_waktu(self, ws_data, total_rows)
 
     # Metode dari Utilities/dragndrop_files_func.py
-    def dragEnterEvent(self, event):
-        dragEnterEvent(event)
-
-    def dragMoveEvent(self, event):
-        dragMoveEvent(event)
-
-    def dropEvent(self, event):
-        dropEvent(event)
-
-    def fileExists(self, file_path):
-        return fileExists(file_path)
+    dragEnterEvent = dragEnterEvent
+    dragMoveEvent = dragMoveEvent
+    dropEvent = dropEvent
+    fileExists = fileExists
+    
+    # Metode dari Utilities/pengaturan_func.py
+    get_batas_suhu_1 = get_batas_suhu_1
+    get_batas_suhu_2 = get_batas_suhu_2
+    pilih_warna_suhu1 = pilih_warna_suhu1
+    pilih_warna_suhu2 = pilih_warna_suhu2
+    pilih_warna_holding_time = pilih_warna_holding_time
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

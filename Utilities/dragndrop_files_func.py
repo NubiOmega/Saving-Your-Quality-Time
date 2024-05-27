@@ -1,3 +1,4 @@
+# Utilities\dragndrop_files_func.py
 from PyQt6 import QtCore, QtWidgets
 
 def dragEnterEvent(self, event):

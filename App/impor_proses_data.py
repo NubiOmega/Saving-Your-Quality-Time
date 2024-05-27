@@ -7,6 +7,7 @@ from openpyxl.styles import PatternFill
 from openpyxl.utils.cell import get_column_letter, column_index_from_string
 from App.salin_data_waktu_suhu import *
 from App.validasi_data_waktu import *
+from Utilities.pengaturan_func import *
 
 
 def start_import_excel(self):
@@ -144,8 +145,8 @@ def import_excel_with_progress(self, file_path, failed_files):
                 
                 # Memeriksa apakah suhu di atas nilai default 71.0 Derajat
                 if suhu >= batas_suhu_2:
-                    ws[f'{kolom_waktu}{i + 3}'].fill = self.fill_kuning
-                    sel_suhu.fill = self.fill_kuning
+                    ws[f'{kolom_waktu}{i + 3}'].fill = self.fill_suhu2
+                    sel_suhu.fill = self.fill_suhu2
                     kenaikan_suhu_71 = True
                 elif suhu < batas_suhu_2 and kenaikan_suhu_71:
                     kenaikan_suhu_71 = False
@@ -167,8 +168,8 @@ def import_excel_with_progress(self, file_path, failed_files):
                 if suhu > batas_suhu_1 and (suhu_sebelumnya is not None and suhu_sebelumnya <= batas_suhu_1):
                     data_suhu_waktu[label]['waktu'].append(ws[f'{kolom_waktu}{i + 3}'].value)
                     data_suhu_waktu[label]['suhu'].append(suhu)
-                    ws[f'{kolom_waktu}{i + 3}'].fill = self.fill_kuning
-                    sel_suhu.fill = self.fill_kuning
+                    ws[f'{kolom_waktu}{i + 3}'].fill = self.fill_suhu1
+                    sel_suhu.fill = self.fill_suhu1
 
 
         # Mengupdate nilai progress bar di dalam loop
@@ -182,21 +183,22 @@ def import_excel_with_progress(self, file_path, failed_files):
         indeks_suhu = indeks_suhu_awal
         for waktu, suhu in zip(data_suhu_waktu[label]['waktu'], data_suhu_waktu[label]['suhu']):
             ws_data.cell(row=7, column=indeks_waktu).value = waktu
-            ws_data.cell(row=7, column=indeks_waktu).fill = self.fill_kuning
+            ws_data.cell(row=7, column=indeks_waktu).fill = self.fill_suhu1
             indeks_waktu += 4
             
             ws_data.cell(row=7, column=indeks_suhu).value = suhu
-            ws_data.cell(row=7, column=indeks_suhu).fill = self.fill_kuning
+            ws_data.cell(row=7, column=indeks_suhu).fill = self.fill_suhu1
             indeks_suhu += 4
 
     # Menjalankan fungsi cek_waktu dengan pembaruan progress bar
+    # print("Memanggil cek_waktu...")  # Debug print sebelum pemanggilan cek_waktu
     self.salin_data_waktu_suhu_71_kesheet_DATA(ws, ws_data)
     self.cek_waktu(ws_data, total_rows)
+    # print("Selesai memanggil cek_waktu.")  # Debug print setelah pemanggilan cek_waktu
 
     # Mengupdate nilai progress bar terakhir kali untuk memastikan progress bar penuh
     self.ui.progressBar.setValue(100)
     QtWidgets.QApplication.processEvents()  # Memproses event agar progress bar terlihat
-
 
     # Menyimpan perubahan dan menutup file Excel
     wb.save(f"hasil data/{os.path.basename(temp_file_path)}")

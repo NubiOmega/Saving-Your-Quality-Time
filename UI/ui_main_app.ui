@@ -183,7 +183,7 @@
      <string>Batas Suhu 1 (e.g. 40.0 derajat )</string>
     </property>
    </widget>
-   <widget class="QDoubleSpinBox" name="batasSuhu1DoubleSpinBox">
+   <widget class="QDoubleSpinBox" name="batasSuhu1_DoubleSpinBox">
     <property name="geometry">
      <rect>
       <x>770</x>
@@ -215,7 +215,7 @@
      <string>Batas Range Suhu 2 ( e.g. 71.0 derajat )</string>
     </property>
    </widget>
-   <widget class="QDoubleSpinBox" name="batasRangeSuhu2EG710DerajatDoubleSpinBox">
+   <widget class="QDoubleSpinBox" name="batasRangeSuhu2_DoubleSpinBox">
     <property name="geometry">
      <rect>
       <x>770</x>
@@ -247,7 +247,7 @@
      <string> Waktu Holding Sheet Data ( Menit : Detik )</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="holdingTime_lineEdit">
     <property name="geometry">
      <rect>
       <x>760</x>
@@ -311,9 +311,6 @@
       <height>20</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Fill Warna Holding Time</string>
-    </property>
    </widget>
    <widget class="QLabel" name="fillWarnaSuhu1_label">
     <property name="geometry">
@@ -324,9 +321,6 @@
       <height>20</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Fill Warna Suhu 1</string>
-    </property>
    </widget>
    <widget class="QLabel" name="fillWarnaSuhu2_label">
     <property name="geometry">
@@ -336,9 +330,6 @@
       <width>141</width>
       <height>20</height>
      </rect>
-    </property>
-    <property name="text">
-     <string>Fill Warna Suhu 2</string>
     </property>
    </widget>
   </widget>
