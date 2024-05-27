@@ -186,9 +186,9 @@
    <widget class="QDoubleSpinBox" name="batasSuhu1_DoubleSpinBox">
     <property name="geometry">
      <rect>
-      <x>770</x>
+      <x>760</x>
       <y>220</y>
-      <width>71</width>
+      <width>81</width>
       <height>22</height>
      </rect>
     </property>
@@ -218,9 +218,9 @@
    <widget class="QDoubleSpinBox" name="batasRangeSuhu2_DoubleSpinBox">
     <property name="geometry">
      <rect>
-      <x>770</x>
+      <x>760</x>
       <y>250</y>
-      <width>71</width>
+      <width>81</width>
       <height>22</height>
      </rect>
     </property>
@@ -252,7 +252,7 @@
      <rect>
       <x>760</x>
       <y>280</y>
-      <width>81</width>
+      <width>71</width>
       <height>22</height>
      </rect>
     </property>
@@ -266,70 +266,79 @@
    <widget class="QPushButton" name="pilihWarnaHoldingTime_btn">
     <property name="geometry">
      <rect>
+      <x>680</x>
+      <y>310</y>
+      <width>81</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pilihWarnaSuhu1_btn">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>340</y>
+      <width>81</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pilihWarnaSuhu2_btn">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>370</y>
+      <width>81</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="fillWarnaHoldingTime_label">
+    <property name="geometry">
+     <rect>
       <x>520</x>
       <y>310</y>
-      <width>151</width>
-      <height>24</height>
+      <width>141</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string>Pilih Warna Holding Time</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pilihWarnaSuhu1_btn">
+   <widget class="QLabel" name="fillWarnaSuhu1_label">
     <property name="geometry">
      <rect>
       <x>520</x>
       <y>340</y>
-      <width>151</width>
-      <height>24</height>
+      <width>141</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string>Pilih Warna Suhu 1</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pilihWarnaSuhu2_btn">
+   <widget class="QLabel" name="fillWarnaSuhu2_label">
     <property name="geometry">
      <rect>
       <x>520</x>
       <y>370</y>
-      <width>151</width>
-      <height>24</height>
+      <width>141</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string>Pilih Warna Suhu 2</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="fillWarnaHoldingTime_label">
-    <property name="geometry">
-     <rect>
-      <x>700</x>
-      <y>310</y>
-      <width>141</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="fillWarnaSuhu1_label">
-    <property name="geometry">
-     <rect>
-      <x>700</x>
-      <y>340</y>
-      <width>141</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="fillWarnaSuhu2_label">
-    <property name="geometry">
-     <rect>
-      <x>700</x>
-      <y>370</y>
-      <width>141</width>
-      <height>20</height>
-     </rect>
     </property>
    </widget>
   </widget>
