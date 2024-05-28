@@ -1,0 +1,31 @@
+QMainWindow {
+    background-color: #fedb59;
+}
+QPushButton {
+    background-color: #FA7A21;
+    color: #ffffff;
+    border: none;
+    padding: 5px 10px;    
+	font: 10pt "Roboto";
+    border-radius: 5px;
+}
+QPushButton#pengaturan_btn {
+	border : none;
+	background-color: rgb(216, 136, 16);
+	border-radius : 18px;
+}
+QListWidget {
+	border-radius: 10px;
+	background-color: #febd59;
+	border: 1px solid #c06000;
+	}
+QTextEdit#textEditDragDropFiles {
+	background-color: rgb(254, 188, 90);
+	border-radius: 5px;
+	border: 1px solid #c06000;
+}
+QPushButton#pengaturan_btn {
+	border : none;
+	background-color: rgb(192, 96, 0);
+	border-radius : 12px;
+	}

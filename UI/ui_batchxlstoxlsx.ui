@@ -6,183 +6,231 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>620</width>
-    <height>600</height>
+    <width>580</width>
+    <height>620</height>
    </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>620</width>
-    <height>600</height>
-   </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>620</width>
-    <height>600</height>
+    <width>580</width>
+    <height>620</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Batch Convert XLS to XLSX</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="LokasiSumberFolder_btn">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>50</y>
-      <width>181</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Lokasi Folder File .XLS</string>
-    </property>
-   </widget>
-   <widget class="QListWidget" name="listFileItems_lokasiSumber">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>90</y>
-      <width>581</width>
-      <height>192</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="LokasiOutputFolder_btn">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>300</y>
-      <width>181</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Lokasi Output Folder File .XLSX</string>
-    </property>
-   </widget>
-   <widget class="QListWidget" name="listFileItems_lokasiTujuan">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>340</y>
-      <width>581</width>
-      <height>171</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_judul">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>20</y>
-      <width>301</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Roboto</family>
-      <pointsize>14</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Batch Konversi xls ke xlsx</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_copyright">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>560</y>
-      <width>191</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Roboto</family>
-      <pointsize>8</pointsize>
-      <italic>true</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>@M. A / Ghissela Davinca Rhamadani</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QTextBrowser" name="textBrowser_lokasiSumber">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>50</y>
-      <width>391</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>Lokasi Folder Sumber File XLS Asli</string>
-    </property>
-   </widget>
-   <widget class="QTextBrowser" name="textBrowser_lokasiTujuan">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>300</y>
-      <width>391</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>Lokasi Folder Tujuan File XLSX</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>550</y>
-      <width>111</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Mulai Konversi</string>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="progressBar">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>520</y>
-      <width>581</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="openFolderOutputXLSX_btn">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>550</y>
-      <width>111</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Buka Folder XLSX</string>
-    </property>
-   </widget>
+  <property name="windowIcon">
+   <iconset resource="../resources.qrc">
+    <normaloff>:/IMAGE/bg/logo.ico</normaloff>:/IMAGE/bg/logo.ico</iconset>
+  </property>
+  <widget class="QWidget" name="main_vLayout">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="label_judul">
+      <property name="font">
+       <font>
+        <family>Roboto</family>
+        <pointsize>14</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Batch Konversi xls ke xlsx</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="sourceBtn_hLayout">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="LokasiSumberFolder_btn">
+        <property name="minimumSize">
+         <size>
+          <width>140</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>182</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Lokasi Folder File .XLS</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QTextBrowser" name="textBrowser_lokasiSumber">
+        <property name="minimumSize">
+         <size>
+          <width>300</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="placeholderText">
+         <string>Lokasi Folder Sumber File XLS Asli</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QListWidget" name="listFileItems_lokasiSumber"/>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="outputBtn_hLayout">
+      <item>
+       <widget class="QPushButton" name="LokasiOutputFolder_btn">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Lokasi Output Folder File .XLSX</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QTextBrowser" name="textBrowser_lokasiTujuan">
+        <property name="minimumSize">
+         <size>
+          <width>300</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="placeholderText">
+         <string>Lokasi Folder Tujuan File XLSX</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QListWidget" name="listFileItems_lokasiTujuan"/>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QProgressBar" name="progressBar">
+      <property name="minimumSize">
+       <size>
+        <width>320</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="value">
+       <number>24</number>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="submitBtn_hlLayout">
+      <item>
+       <widget class="QPushButton" name="konversi_Btn">
+        <property name="minimumSize">
+         <size>
+          <width>180</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>180</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Mulai Konversi</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="openFolderOutputXLSX_btn">
+        <property name="minimumSize">
+         <size>
+          <width>180</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>180</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Buka Folder XLSX</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

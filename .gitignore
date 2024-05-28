@@ -5,5 +5,4 @@ Utilities/__pycache__
 .gitignore
 resources.py
 resources.qrc
-UI/styles.qss
 

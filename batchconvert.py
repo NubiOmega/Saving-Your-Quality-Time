@@ -11,7 +11,7 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_MainWindow):
         
         self.LokasiSumberFolder_btn.clicked.connect(self.select_source_folder)
         self.LokasiOutputFolder_btn.clicked.connect(self.select_output_folder)
-        self.pushButton.clicked.connect(self.start_conversion)
+        self.konversi_Btn.clicked.connect(self.start_conversion)
         self.openFolderOutputXLSX_btn.clicked.connect(self.open_output_folder)
 
         self.source_folder = ""

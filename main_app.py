@@ -1,6 +1,6 @@
 import sys
 from PyQt6 import QtCore, QtWidgets, QtGui
-from UI.ui_main_app import Ui_MainWindow  # Mengimpor kelas UI yang telah dihasilkan
+from UI.ui_main_app2 import Ui_MainWindow  # Mengimpor kelas UI yang telah dihasilkan
 from datetime import datetime, time
 from openpyxl.styles import PatternFill
 from openpyxl.utils.cell import get_column_letter, column_index_from_string
@@ -23,8 +23,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.progressBar.setValue(0)  # Mengatur nilai default progress bar menjadi 0
         self.ui.openFileFolder_btn.clicked.connect(self.open_output_folder)
         self.ui.isidansalinData_btn.clicked.connect(self.validate_and_start_import)
-        self.ui.actionBatch_Convert_XLS_to_XLSX.triggered.connect(self.buka_window_batch_convert)
-        self.ui.actionValidation_XLS_XLSX.triggered.connect(self.buka_window_compare_xls_xlsx)
+        self.ui.konversiXLStoXLSX_btn.clicked.connect(self.buka_window_batch_convert)
+        # self.ui.cekValidasiFile_btn.clicked.connect(self.buka_window_compare_xls_xlsx)
 
         self.ui.pilihWarnaSuhu1_btn.clicked.connect(self.pilih_warna_suhu1)  # Menghubungkan tombol pilih warna suhu 1
         self.ui.pilihWarnaSuhu2_btn.clicked.connect(self.pilih_warna_suhu2)  # Menghubungkan tombol pilih warna suhu 2
@@ -109,8 +109,8 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
 
     # Muat dan terapkan stylesheet jika ada
-    # with open("UI/styles.qss", "r") as style_file:
-    #     app.setStyleSheet(style_file.read())
+    with open("UI/styles.qss", "r") as style_file:
+        app.setStyleSheet(style_file.read())
 
     window = MainWindow()
     window.show()
