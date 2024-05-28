@@ -90,7 +90,7 @@ QPushButton#pengaturan_btn {
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
-     <string>Buka Output Folder .xlsx</string>
+     <string>Buka Folder Output .xlsx</string>
     </property>
    </widget>
    <widget class="QProgressBar" name="progressBar">

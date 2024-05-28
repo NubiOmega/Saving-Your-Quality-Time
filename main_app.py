@@ -12,6 +12,7 @@ from App.salin_data_waktu_suhu import *
 from App.validasi_data_waktu import *
 from Utilities.dragndrop_files_func import *
 from Utilities.pengaturan_func import *
+import resources_rc
 
 
 class MainWindow(QtWidgets.QMainWindow):

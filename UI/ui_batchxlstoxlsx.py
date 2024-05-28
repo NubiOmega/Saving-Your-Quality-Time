@@ -15,7 +15,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(580, 620)
         MainWindow.setMaximumSize(QtCore.QSize(580, 620))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("bg/logo.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap(":/IMAGE/bg/logo.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         self.main_vLayout = QtWidgets.QWidget(parent=MainWindow)
         self.main_vLayout.setObjectName("main_vLayout")
@@ -95,12 +95,12 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Batch Convert XLS to XLSX"))
         self.label_judul.setText(_translate("MainWindow", "Batch Konversi xls ke xlsx"))
-        self.LokasiSumberFolder_btn.setText(_translate("MainWindow", "Lokasi Folder File .XLS"))
+        self.LokasiSumberFolder_btn.setText(_translate("MainWindow", "Lokasi Folder File .xls"))
         self.textBrowser_lokasiSumber.setPlaceholderText(_translate("MainWindow", "Lokasi Folder Sumber File XLS Asli"))
-        self.LokasiOutputFolder_btn.setText(_translate("MainWindow", "Lokasi Output Folder File .XLSX"))
+        self.LokasiOutputFolder_btn.setText(_translate("MainWindow", "Lokasi Folder Output .xlsx"))
         self.textBrowser_lokasiTujuan.setPlaceholderText(_translate("MainWindow", "Lokasi Folder Tujuan File XLSX"))
         self.konversi_Btn.setText(_translate("MainWindow", "Mulai Konversi"))
-        self.openFolderOutputXLSX_btn.setText(_translate("MainWindow", "Buka Folder XLSX"))
+        self.openFolderOutputXLSX_btn.setText(_translate("MainWindow", "Buka Folder .xlsx"))
 
 
 # if __name__ == "__main__":

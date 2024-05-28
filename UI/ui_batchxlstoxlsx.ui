@@ -59,7 +59,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Lokasi Folder File .XLS</string>
+         <string>Lokasi Folder File .xls</string>
         </property>
        </widget>
       </item>
@@ -117,7 +117,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Lokasi Output Folder File .XLSX</string>
+         <string>Lokasi Folder Output .xlsx</string>
         </property>
        </widget>
       </item>
@@ -220,7 +220,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Buka Folder XLSX</string>
+         <string>Buka Folder .xlsx</string>
         </property>
        </widget>
       </item>
