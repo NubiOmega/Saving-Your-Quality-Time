@@ -9,15 +9,15 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(580, 620)
-        MainWindow.setMaximumSize(QtCore.QSize(580, 620))
+class Ui_ConvertWindow(object):
+    def setupUi(self, ConvertWindow):
+        ConvertWindow.setObjectName("ConvertWindow")
+        ConvertWindow.resize(580, 620)
+        ConvertWindow.setMaximumSize(QtCore.QSize(580, 620))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/IMAGE/bg/logo.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        MainWindow.setWindowIcon(icon)
-        self.main_vLayout = QtWidgets.QWidget(parent=MainWindow)
+        ConvertWindow.setWindowIcon(icon)
+        self.main_vLayout = QtWidgets.QWidget(parent=ConvertWindow)
         self.main_vLayout.setObjectName("main_vLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.main_vLayout)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -86,28 +86,28 @@ class Ui_MainWindow(object):
         self.openFolderOutputXLSX_btn.setObjectName("openFolderOutputXLSX_btn")
         self.submitBtn_hlLayout.addWidget(self.openFolderOutputXLSX_btn)
         self.verticalLayout.addLayout(self.submitBtn_hlLayout)
-        MainWindow.setCentralWidget(self.main_vLayout)
+        ConvertWindow.setCentralWidget(self.main_vLayout)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(ConvertWindow)
+        QtCore.QMetaObject.connectSlotsByName(ConvertWindow)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, ConvertWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Batch Convert XLS to XLSX"))
-        self.label_judul.setText(_translate("MainWindow", "Batch Konversi xls ke xlsx"))
-        self.LokasiSumberFolder_btn.setText(_translate("MainWindow", "Lokasi Folder File .xls"))
-        self.textBrowser_lokasiSumber.setPlaceholderText(_translate("MainWindow", "Lokasi Folder Sumber File XLS Asli"))
-        self.LokasiOutputFolder_btn.setText(_translate("MainWindow", "Lokasi Folder Output .xlsx"))
-        self.textBrowser_lokasiTujuan.setPlaceholderText(_translate("MainWindow", "Lokasi Folder Tujuan File XLSX"))
-        self.konversi_Btn.setText(_translate("MainWindow", "Mulai Konversi"))
-        self.openFolderOutputXLSX_btn.setText(_translate("MainWindow", "Buka Folder .xlsx"))
+        ConvertWindow.setWindowTitle(_translate("ConvertWindow", "Batch Convert XLS to XLSX"))
+        self.label_judul.setText(_translate("ConvertWindow", "Batch Konversi xls ke xlsx"))
+        self.LokasiSumberFolder_btn.setText(_translate("ConvertWindow", "Lokasi Folder File .xls"))
+        self.textBrowser_lokasiSumber.setPlaceholderText(_translate("ConvertWindow", "Lokasi Folder Sumber File XLS Asli"))
+        self.LokasiOutputFolder_btn.setText(_translate("ConvertWindow", "Lokasi Folder Output .xlsx"))
+        self.textBrowser_lokasiTujuan.setPlaceholderText(_translate("ConvertWindow", "Lokasi Folder Tujuan File XLSX"))
+        self.konversi_Btn.setText(_translate("ConvertWindow", "Mulai Konversi"))
+        self.openFolderOutputXLSX_btn.setText(_translate("ConvertWindow", "Buka Folder .xlsx"))
 
 
 # if __name__ == "__main__":
 #     import sys
 #     app = QtWidgets.QApplication(sys.argv)
-#     MainWindow = QtWidgets.QMainWindow()
-#     ui = Ui_MainWindow()
-#     ui.setupUi(MainWindow)
-#     MainWindow.show()
+#     ConvertWindow = QtWidgets.QMainWindow()
+#     ui = Ui_ConvertWindow()
+#     ui.setupUi(ConvertWindow)
+#     ConvertWindow.show()
 #     sys.exit(app.exec())

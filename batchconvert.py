@@ -2,9 +2,9 @@ import os
 import sys
 import win32com.client as win32
 from PyQt6 import QtCore, QtGui, QtWidgets
-from UI.ui_batchxlstoxlsx import Ui_MainWindow
+from UI.ui_batchxlstoxlsx import Ui_ConvertWindow
 
-class BatchConvertApp(QtWidgets.QMainWindow, Ui_MainWindow):
+class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)

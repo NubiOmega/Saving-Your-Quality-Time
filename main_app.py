@@ -13,7 +13,8 @@ from App.validasi_data_waktu import *
 from Utilities.dragndrop_files_func import *
 from Utilities.pengaturan_func import *
 import resources_rc
-
+# Menonaktifkan modul yang dibekukan saat debugging
+os.environ['PYDEVD_DISABLE_FILE_VALIDATION'] = '1'
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -42,10 +43,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Variabel untuk melacak pilihan menimpa otomatis
         self.auto_overwrite = False
-
-        # Membuat objek untuk memberikan warna background kuning dan merah
-        self.fill_kuning = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
-        # self.fill_merah = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
 
         # Menghubungkan QTextEdit yang sudah ada dengan fungsi drag and drop
         self.ui.textEditDragDropFiles.setAcceptDrops(True)
