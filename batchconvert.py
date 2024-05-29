@@ -1,5 +1,6 @@
 import os
 import sys
+import re
 import win32com.client as win32
 from PyQt6 import QtCore, QtGui, QtWidgets
 from UI.ui_batchxlstoxlsx import Ui_ConvertWindow
@@ -69,13 +70,16 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
             QtWidgets.QMessageBox.warning(self, "Peringatan", "Tidak ada file .xls di folder sumber.")
             return
         
-        reply = QtWidgets.QMessageBox.question(
-            self, 'Konfirmasi Menimpa File',
-            'Apakah Anda ingin menimpa semua file yang sudah ada di folder output?',
-            QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No,
-            QtWidgets.QMessageBox.StandardButton.No
-        )
-        overwrite_all = reply == QtWidgets.QMessageBox.StandardButton.Yes
+        if not os.listdir(self.output_folder):  # Check if output folder is empty
+            overwrite_all = True  # Automatically overwrite all files if output folder is empty
+        else:
+            reply = QtWidgets.QMessageBox.question(
+                self, 'Konfirmasi Menimpa File',
+                'Apakah Anda ingin menimpa semua file yang sudah ada di folder output?',
+                QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No,
+                QtWidgets.QMessageBox.StandardButton.No
+            )
+            overwrite_all = reply == QtWidgets.QMessageBox.StandardButton.Yes
 
         self.progressBar.setValue(0)
         successful_conversions = 0
@@ -151,8 +155,10 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
             else:
                 QtWidgets.QMessageBox.warning(self, "Peringatan", "Folder tidak ditemukan.")
 
+
 # if __name__ == "__main__":
 #     app = QtWidgets.QApplication(sys.argv)
-#     window = BatchConvertApp()
-#     window.show()
+#     mainWin = BatchConvertApp()
+#     mainWin.show()
 #     sys.exit(app.exec())
+
