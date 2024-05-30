@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>580</width>
+    <width>392</width>
     <height>620</height>
    </rect>
   </property>
@@ -40,12 +40,19 @@
      </widget>
     </item>
     <item>
+     <widget class="QTextEdit" name="textEditDragDropFiles">
+      <property name="placeholderText">
+       <string>Drag file atau folder .xls di sini</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <layout class="QHBoxLayout" name="sourceBtn_hLayout">
       <property name="spacing">
        <number>6</number>
       </property>
       <item>
-       <widget class="QPushButton" name="LokasiSumberFolder_btn">
+       <widget class="QPushButton" name="LokasiSumberFile_btn">
         <property name="minimumSize">
          <size>
           <width>140</width>
@@ -58,8 +65,11 @@
           <height>32</height>
          </size>
         </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="text">
-         <string>Lokasi Folder File .xls</string>
+         <string>Pilih Lokasi File .xls</string>
         </property>
        </widget>
       </item>
@@ -76,29 +86,17 @@
         </property>
        </spacer>
       </item>
-      <item>
-       <widget class="QTextBrowser" name="textBrowser_lokasiSumber">
-        <property name="minimumSize">
-         <size>
-          <width>300</width>
-          <height>32</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>32</height>
-         </size>
-        </property>
-        <property name="placeholderText">
-         <string>Lokasi Folder Sumber File XLS Asli</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
     <item>
-     <widget class="QListWidget" name="listFileItems_lokasiSumber"/>
+     <widget class="QListWidget" name="listFileItems_lokasiSumber">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>160</height>
+       </size>
+      </property>
+     </widget>
     </item>
     <item>
      <layout class="QHBoxLayout" name="outputBtn_hLayout">
@@ -116,8 +114,11 @@
           <height>32</height>
          </size>
         </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="text">
-         <string>Lokasi Folder Output .xlsx</string>
+         <string>Pilih Lokasi Folder Output .xlsx</string>
         </property>
        </widget>
       </item>
@@ -134,36 +135,24 @@
         </property>
        </spacer>
       </item>
-      <item>
-       <widget class="QTextBrowser" name="textBrowser_lokasiTujuan">
-        <property name="minimumSize">
-         <size>
-          <width>300</width>
-          <height>32</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>32</height>
-         </size>
-        </property>
-        <property name="placeholderText">
-         <string>Lokasi Folder Tujuan File XLSX</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
     <item>
-     <widget class="QListWidget" name="listFileItems_lokasiTujuan"/>
+     <widget class="QListWidget" name="listFileItems_lokasiTujuan">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>160</height>
+       </size>
+      </property>
+     </widget>
     </item>
     <item alignment="Qt::AlignHCenter">
      <widget class="QProgressBar" name="progressBar">
       <property name="minimumSize">
        <size>
         <width>320</width>
-        <height>32</height>
+        <height>20</height>
        </size>
       </property>
       <property name="value">
@@ -186,6 +175,9 @@
           <width>180</width>
           <height>32</height>
          </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="text">
          <string>Mulai Konversi</string>
@@ -218,6 +210,9 @@
           <width>180</width>
           <height>32</height>
          </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="text">
          <string>Buka Folder .xlsx</string>
