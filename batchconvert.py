@@ -4,6 +4,11 @@ import win32com.client as win32
 from PyQt6 import QtCore, QtGui, QtWidgets
 from UI.ui_batchxlstoxlsx import Ui_ConvertWindow
 from Utilities.dragndrop_files_func import *
+import logging
+
+logging.basicConfig(filename='konversi_xls_ke_xlsx_errors_log.txt', level=logging.ERROR)
+def log_error(message):
+    logging.error(message)
 
 class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
     def __init__(self, parent=None):
@@ -24,6 +29,10 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
         self.source_files = []
         self.output_folder = ""
         self.progressBar.setValue(0)
+
+        # Mengatur mode pemilihan QListWidget ke MultiSelection
+        self.listFileItems_lokasiSumber.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.MultiSelection)
+        self.listFileItems_lokasiTujuan.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.MultiSelection)
 
         # Menambahkan event handler untuk klik kanan
         self.listFileItems_lokasiSumber.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
@@ -75,7 +84,7 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
             wb.Close()
             return True, None
         except Exception as e:
-            return False, str(e)
+            return False, f"Gagal mengonversi {source_file}. Error: {str(e)}"
         finally:
             excel.Application.Quit()
 
@@ -131,7 +140,9 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
         except Exception as e:
             self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
 
+
     def show_message_box(self, title, message, icon):
+        log_error(f"{title}: {message}")
         msg = QtWidgets.QMessageBox(self)
         msg.setIcon(icon)
         msg.setWindowTitle(title)
@@ -143,7 +154,8 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
             menu = QtWidgets.QMenu()
             open_file_action = menu.addAction("Buka File")
             open_folder_action = menu.addAction("Buka Folder")
-            delete_file_action = menu.addAction("Hapus File")
+            delete_all_files_action = menu.addAction("Hapus Semua File")
+            delete_selected_files_action = menu.addAction("Hapus File yang Dipilih")
             action = menu.exec(self.listFileItems_lokasiSumber.mapToGlobal(position))
 
             if action == open_file_action:
@@ -153,12 +165,10 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
                     self.open_selected_folder(self.listFileItems_lokasiSumber, os.path.dirname(self.source_files[0]))
                 else:
                     raise Exception("Tidak ada folder sumber yang dipilih.")
-            elif action == delete_file_action:
-                selected_item = self.listFileItems_lokasiSumber.currentItem()
-                if selected_item:
-                    file_path = selected_item.toolTip()
-                    self.source_files.remove(file_path)
-                    self.listFileItems_lokasiSumber.takeItem(self.listFileItems_lokasiSumber.row(selected_item))
+            elif action == delete_all_files_action:
+                self.delete_all_files(self.listFileItems_lokasiSumber, self.source_files)
+            elif action == delete_selected_files_action:
+                self.delete_selected_files(self.listFileItems_lokasiSumber, self.source_files)
         except Exception as e:
             self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
 
@@ -167,6 +177,7 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
             menu = QtWidgets.QMenu()
             open_file_action = menu.addAction("Buka File")
             open_folder_action = menu.addAction("Buka Folder")
+            delete_selected_files_action = menu.addAction("Hapus File yang Dipilih")
             action = menu.exec(self.listFileItems_lokasiTujuan.mapToGlobal(position))
 
             if action == open_file_action:
@@ -176,6 +187,27 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
                     self.open_selected_folder(self.listFileItems_lokasiTujuan, self.output_folder)
                 else:
                     raise Exception("Tidak ada folder output yang dipilih.")
+            elif action == delete_selected_files_action:
+                self.delete_selected_files(self.listFileItems_lokasiTujuan)
+        except Exception as e:
+            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
+
+    def delete_all_files(self, list_widget, source_list=None):
+        try:
+            list_widget.clear()
+            if source_list:
+                source_list.clear()
+        except Exception as e:
+            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
+
+    def delete_selected_files(self, list_widget, source_list=None):
+        try:
+            selected_items = list_widget.selectedItems()
+            for item in selected_items:
+                file_path = item.toolTip()
+                if source_list:
+                    source_list.remove(file_path)
+                list_widget.takeItem(list_widget.row(item))
         except Exception as e:
             self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
 

@@ -14,7 +14,7 @@ from Utilities.dragndrop_files_func import *
 from Utilities.pengaturan_func import *
 import resources_rc
 # Menonaktifkan modul yang dibekukan saat debugging
-os.environ['PYDEVD_DISABLE_FILE_VALIDATION'] = '1'
+# os.environ['PYDEVD_DISABLE_FILE_VALIDATION'] = '1'
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
