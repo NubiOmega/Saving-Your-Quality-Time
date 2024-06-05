@@ -11,11 +11,18 @@ from Utilities.pengaturan_func import *
 
 
 def start_import_excel(self):
-    # Mendapatkan path file yang dipilih
+    # Membuat folder "LOG" jika belum ada
+    log_folder = "LOG"
+    if not os.path.exists(log_folder):
+        os.makedirs(log_folder)
+
+    # Menambahkan timestamp pada nama file log
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_file_path = f'{log_folder}/proses_excel_data_log_{timestamp}.txt'
+
     self.ui.listItems_outputFilesXLSX.clear()  # Mereset konten list item
     processed_files = []  # List untuk menyimpan nama file yang berhasil diproses
     failed_files = []  # List untuk menyimpan nama file yang gagal diproses
-    log_file_path = "impor_proses_excel_data_log.txt"  # Path untuk file log
 
     for index in range(self.ui.listItems_filesSource.count()):
         file_path = self.ui.listItems_filesSource.item(index).text()
@@ -50,12 +57,12 @@ def start_import_excel(self):
 
     # Opsional: Menampilkan pesan jika ada file yang gagal diproses
     if failed_files:
-        QtWidgets.QMessageBox.warning(self, 'Gagal', f'{len(failed_files)} Total Baris Excel yang gagal diproses karena DATA SUHU TIDAK VALID.\nLihat "impor_proses_excel_data_log.txt" untuk detailnya.')
+        QtWidgets.QMessageBox.warning(self, 'Gagal', f'{len(failed_files)} Total Baris Excel yang gagal diproses karena DATA SUHU TIDAK VALID.\nLihat "{log_file_path}" untuk detailnya.')
 
 def confirm_continue(self):
     reply = QtWidgets.QMessageBox.question(self, "Konfirmasi", 
-                                        "Terjadi kesalahan. Apakah Anda ingin melanjutkan proses?",
-                                        QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
+                                           "Terjadi kesalahan. Apakah Anda ingin melanjutkan proses?",
+                                           QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
     return reply == QtWidgets.QMessageBox.StandardButton.Yes
 
 def import_excel_with_progress(self, file_path, failed_files):
@@ -76,8 +83,8 @@ def import_excel_with_progress(self, file_path, failed_files):
     
     if increment > 0 and not self.auto_overwrite:
         reply = QtWidgets.QMessageBox.question(self, "Konfirmasi", 
-                                            f"File {base_name} sudah ada. Gunakan nama {os.path.basename(temp_file_path)}?",
-                                            QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No | QtWidgets.QMessageBox.StandardButton.YesToAll)
+                                               f"File {base_name} sudah ada. Gunakan nama {os.path.basename(temp_file_path)}?",
+                                               QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No | QtWidgets.QMessageBox.StandardButton.YesToAll)
         if reply == QtWidgets.QMessageBox.StandardButton.No:
             return
         elif reply == QtWidgets.QMessageBox.StandardButton.YesToAll:

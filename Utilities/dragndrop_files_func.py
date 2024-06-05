@@ -65,7 +65,7 @@ def dropEvent_convert_xls_xlsx(self, event):
                     if not self.fileExists_convert_xls_xlsx(file_path):
                         item = QtWidgets.QListWidgetItem(os.path.basename(file_path))
                         item.setToolTip(file_path)
-                        self.listFileItems_lokasiSumber.addItem(item)
+                        self.ui.listFileItems_lokasiSumber.addItem(item)
                         self.source_files.append(file_path)  # Pastikan file ditambahkan ke source_files
                     else:
                         QtWidgets.QMessageBox.warning(self, "File Duplikat", f"File '{file_path}' sudah ada dalam daftar.")
@@ -78,8 +78,8 @@ def dropEvent_convert_xls_xlsx(self, event):
 
 def fileExists_convert_xls_xlsx(self, file_path):
     try:
-        for row in range(self.listFileItems_lokasiSumber.count()):
-            item = self.listFileItems_lokasiSumber.item(row)
+        for row in range(self.ui.listFileItems_lokasiSumber.count()):
+            item = self.ui.listFileItems_lokasiSumber.item(row)
             if item.toolTip() == file_path:
                 return True
         return False

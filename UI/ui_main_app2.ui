@@ -524,9 +524,9 @@ QPushButton#pengaturan_btn {
     <property name="geometry">
      <rect>
       <x>-30</x>
-      <y>260</y>
-      <width>241</width>
-      <height>331</height>
+      <y>240</y>
+      <width>251</width>
+      <height>351</height>
      </rect>
     </property>
     <property name="pixmap">
@@ -542,8 +542,8 @@ QPushButton#pengaturan_btn {
    <widget class="QLabel" name="original_img_2">
     <property name="geometry">
      <rect>
-      <x>470</x>
-      <y>410</y>
+      <x>460</x>
+      <y>400</y>
       <width>241</width>
       <height>271</height>
      </rect>
@@ -637,8 +637,8 @@ QPushButton#pengaturan_btn {
    <widget class="QLabel" name="original_img_8">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>-40</y>
+      <x>380</x>
+      <y>-20</y>
       <width>211</width>
       <height>251</height>
      </rect>
@@ -669,6 +669,7 @@ QPushButton#pengaturan_btn {
      <string>Simpan Konfigurasi</string>
     </property>
    </widget>
+   <zorder>listItems_outputFilesXLSX</zorder>
    <zorder>listItems_filesSource</zorder>
    <zorder>logoOT_img</zorder>
    <zorder>original_img_3</zorder>
@@ -678,7 +679,6 @@ QPushButton#pengaturan_btn {
    <zorder>openFileFolder_btn</zorder>
    <zorder>progressBar</zorder>
    <zorder>label_PT</zorder>
-   <zorder>listItems_outputFilesXLSX</zorder>
    <zorder>textEditDragDropFiles</zorder>
    <zorder>frame</zorder>
    <zorder>original_img_4</zorder>
@@ -687,8 +687,8 @@ QPushButton#pengaturan_btn {
    <zorder>cekValidasiFile_btn</zorder>
    <zorder>konversiXLStoXLSX_btn</zorder>
    <zorder>original_img</zorder>
-   <zorder>original_img_7</zorder>
    <zorder>isidansalinData_btn</zorder>
+   <zorder>original_img_7</zorder>
   </widget>
   <action name="actionBatch_Convert_XLS_to_XLSX">
    <property name="text">

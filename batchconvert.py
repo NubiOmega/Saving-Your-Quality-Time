@@ -5,42 +5,58 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from UI.ui_batchxlstoxlsx import Ui_ConvertWindow
 from Utilities.dragndrop_files_func import *
 import logging
+from datetime import datetime
 
-logging.basicConfig(filename='konversi_xls_ke_xlsx_errors_log.txt', level=logging.ERROR)
+# Menambahkan timestamp pada nama file log
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+log_folder = "LOG"
+log_filename = f'{log_folder}/konversi_xls_xlsx_log_{timestamp}.txt'
+
+# Memastikan folder LOG sudah ada atau membuatnya jika belum ada
+if not os.path.exists(log_folder):
+    os.makedirs(log_folder)
+
+logging.basicConfig(
+    filename=log_filename,
+    level=logging.ERROR,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+
 def log_error(message):
     logging.error(message)
 
-class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
+class BatchConvertApp(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setupUi(self)
+        self.ui = Ui_ConvertWindow()
+        self.ui.setupUi(self)
         
-        self.LokasiSumberFile_btn.clicked.connect(self.select_source_files)
-        self.LokasiOutputFolder_btn.clicked.connect(self.select_output_folder)
-        self.konversi_Btn.clicked.connect(self.start_conversion)
-        self.openFolderOutputXLSX_btn.clicked.connect(self.open_output_folder)
+        self.ui.LokasiSumberFile_btn.clicked.connect(self.select_source_files)
+        self.ui.LokasiOutputFolder_btn.clicked.connect(self.select_output_folder)
+        self.ui.konversi_Btn.clicked.connect(self.start_conversion)
+        self.ui.openFolderOutputXLSX_btn.clicked.connect(self.open_output_folder)
 
         # Menghubungkan QTextEdit yang sudah ada dengan fungsi drag and drop
-        self.textEditDragDropFiles.setAcceptDrops(True)
-        self.textEditDragDropFiles.dragEnterEvent = self.dragEnterEvent
-        self.textEditDragDropFiles.dragMoveEvent = self.dragMoveEvent
-        self.textEditDragDropFiles.dropEvent = self.dropEvent_convert_xls_xlsx
+        self.ui.textEditDragDropFiles.setAcceptDrops(True)
+        self.ui.textEditDragDropFiles.dragEnterEvent = self.dragEnterEvent
+        self.ui.textEditDragDropFiles.dragMoveEvent = self.dragMoveEvent
+        self.ui.textEditDragDropFiles.dropEvent = self.dropEvent_convert_xls_xlsx
 
         self.source_files = []
         self.output_folder = ""
-        self.progressBar.setValue(0)
+        self.ui.progressBar.setValue(0)
 
         # Mengatur mode pemilihan QListWidget ke MultiSelection
-        self.listFileItems_lokasiSumber.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.MultiSelection)
-        self.listFileItems_lokasiTujuan.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.MultiSelection)
+        self.ui.listFileItems_lokasiSumber.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.MultiSelection)
+        self.ui.listFileItems_lokasiTujuan.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.MultiSelection)
 
         # Menambahkan event handler untuk klik kanan
-        self.listFileItems_lokasiSumber.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
-        self.listFileItems_lokasiSumber.customContextMenuRequested.connect(self.show_source_context_menu)
+        self.ui.listFileItems_lokasiSumber.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
+        self.ui.listFileItems_lokasiSumber.customContextMenuRequested.connect(self.show_source_context_menu)
         
-        self.listFileItems_lokasiTujuan.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
-        self.listFileItems_lokasiTujuan.customContextMenuRequested.connect(self.show_output_context_menu)
-
+        self.ui.listFileItems_lokasiTujuan.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
+        self.ui.listFileItems_lokasiTujuan.customContextMenuRequested.connect(self.show_output_context_menu)
 
     def select_source_files(self):
         try:
@@ -51,7 +67,7 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
                         self.source_files.append(filename)
                         item = QtWidgets.QListWidgetItem(os.path.basename(filename))
                         item.setToolTip(filename)
-                        self.listFileItems_lokasiSumber.addItem(item)
+                        self.ui.listFileItems_lokasiSumber.addItem(item)
             else:
                 raise Exception("Tidak ada file yang dipilih.")
         except Exception as e:
@@ -108,10 +124,10 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
                 )
                 overwrite_all = reply == QtWidgets.QMessageBox.StandardButton.Yes
 
-            self.progressBar.setValue(0)
+            self.ui.progressBar.setValue(0)
             successful_conversions = 0
 
-            self.listFileItems_lokasiTujuan.clear()  # Menghapus daftar item pada listFileItems_lokasiTujuan sebelum konversi baru
+            self.ui.listFileItems_lokasiTujuan.clear()  # Menghapus daftar item pada listFileItems_lokasiTujuan sebelum konversi baru
 
             for index, source_file in enumerate(self.source_files):
                 filename = os.path.basename(source_file)
@@ -127,11 +143,11 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
                 if success:
                     item = QtWidgets.QListWidgetItem(filename.replace('.xls', '.xlsx'))
                     item.setToolTip(dest_file)
-                    self.listFileItems_lokasiTujuan.addItem(item)
+                    self.ui.listFileItems_lokasiTujuan.addItem(item)
                     successful_conversions += 1
                 else:
                     self.show_message_box('Gagal', f'Gagal mengonversi {source_file}. Error: {error}', QtWidgets.QMessageBox.Icon.Critical)
-                self.progressBar.setValue(int((index + 1) / total_files * 100))
+                self.ui.progressBar.setValue(int((index + 1) / total_files * 100))
 
             if successful_conversions == total_files:
                 self.show_message_box('Selesai', 'Semua file berhasil dikonversi.', QtWidgets.QMessageBox.Icon.Information)
@@ -139,7 +155,6 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
                 self.show_message_box('Selesai', f'Proses konversi selesai. {successful_conversions} dari {total_files} file berhasil dikonversi.', QtWidgets.QMessageBox.Icon.Information)
         except Exception as e:
             self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
-
 
     def show_message_box(self, title, message, icon):
         log_error(f"{title}: {message}")
@@ -156,19 +171,19 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
             open_folder_action = menu.addAction("Buka Folder")
             delete_all_files_action = menu.addAction("Hapus Semua File")
             delete_selected_files_action = menu.addAction("Hapus File yang Dipilih")
-            action = menu.exec(self.listFileItems_lokasiSumber.mapToGlobal(position))
+            action = menu.exec(self.ui.listFileItems_lokasiSumber.mapToGlobal(position))
 
             if action == open_file_action:
-                self.open_selected_file(self.listFileItems_lokasiSumber)
+                self.open_selected_file(self.ui.listFileItems_lokasiSumber)
             elif action == open_folder_action:
                 if self.source_files:
-                    self.open_selected_folder(self.listFileItems_lokasiSumber, os.path.dirname(self.source_files[0]))
+                    self.open_selected_folder(self.ui.listFileItems_lokasiSumber, os.path.dirname(self.source_files[0]))
                 else:
                     raise Exception("Tidak ada folder sumber yang dipilih.")
             elif action == delete_all_files_action:
-                self.delete_all_files(self.listFileItems_lokasiSumber, self.source_files)
+                self.delete_all_files(self.ui.listFileItems_lokasiSumber, self.source_files)
             elif action == delete_selected_files_action:
-                self.delete_selected_files(self.listFileItems_lokasiSumber, self.source_files)
+                self.delete_selected_files(self.ui.listFileItems_lokasiSumber, self.source_files)
         except Exception as e:
             self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
 
@@ -178,17 +193,17 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
             open_file_action = menu.addAction("Buka File")
             open_folder_action = menu.addAction("Buka Folder")
             delete_selected_files_action = menu.addAction("Hapus File yang Dipilih")
-            action = menu.exec(self.listFileItems_lokasiTujuan.mapToGlobal(position))
+            action = menu.exec(self.ui.listFileItems_lokasiTujuan.mapToGlobal(position))
 
             if action == open_file_action:
-                self.open_selected_file(self.listFileItems_lokasiTujuan)
+                self.open_selected_file(self.ui.listFileItems_lokasiTujuan)
             elif action == open_folder_action:
                 if self.output_folder:
-                    self.open_selected_folder(self.listFileItems_lokasiTujuan, self.output_folder)
+                    self.open_selected_folder(self.ui.listFileItems_lokasiTujuan, self.output_folder)
                 else:
                     raise Exception("Tidak ada folder output yang dipilih.")
             elif action == delete_selected_files_action:
-                self.delete_selected_files(self.listFileItems_lokasiTujuan)
+                self.delete_selected_files(self.ui.listFileItems_lokasiTujuan)
         except Exception as e:
             self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
 
@@ -231,13 +246,12 @@ class BatchConvertApp(QtWidgets.QMainWindow, Ui_ConvertWindow):
                 raise Exception("Folder tidak ditemukan.")
         except Exception as e:
             self.show_message_box("Peringatan", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Warning)
-    
+
     # Metode drag drop file dari Utilities\dragndrop_files_func.py
     dragEnterEvent = dragEnterEvent
     dragMoveEvent = dragMoveEvent
     dropEvent_convert_xls_xlsx = dropEvent_convert_xls_xlsx
     fileExists_convert_xls_xlsx = fileExists_convert_xls_xlsx
-
 
 # if __name__ == "__main__":
 #     app = QtWidgets.QApplication(sys.argv)
