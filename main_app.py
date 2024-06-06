@@ -1,4 +1,5 @@
 import sys
+import os
 from PyQt6 import QtCore, QtWidgets, QtGui
 from UI.ui_main_app2 import Ui_MainWindow  # Mengimpor kelas UI yang telah dihasilkan
 from datetime import datetime, time
@@ -13,15 +14,13 @@ from App.validasi_data_waktu import *
 from Utilities.dragndrop_files_func import *
 from Utilities.pengaturan_func import *
 import resources_rc
-# Menonaktifkan modul yang dibekukan saat debugging
-# os.environ['PYDEVD_DISABLE_FILE_VALIDATION'] = '1'
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.BrowseFile_btn.clicked.connect(self.browse_files)
+        self.ui.browseFile_btn.clicked.connect(self.browse_files)
         self.ui.progressBar.setValue(0)  # Mengatur nilai default progress bar menjadi 0
         self.ui.openFileFolder_btn.clicked.connect(self.open_output_folder)
         self.ui.isidansalinData_btn.clicked.connect(self.validate_and_start_import)
@@ -33,22 +32,22 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.pilihWarnaHoldingTime_btn.clicked.connect(self.pilih_warna_holding_time)  # Menghubungkan tombol pilih warna holding time
         self.ui.simpanPengaturan_btn.clicked.connect(self.simpan_pengaturan_conf)  # Menghubungkan tombol simpan konfigurasi
 
-        # Context menu untuk listItems_filesSource
-        self.ui.listItems_filesSource.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
-        self.ui.listItems_filesSource.customContextMenuRequested.connect(self.open_source_context_menu)
-        
-        # Context menu untuk listItems_outputFilesXLSX
-        self.ui.listItems_outputFilesXLSX.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
-        self.ui.listItems_outputFilesXLSX.customContextMenuRequested.connect(self.open_output_context_menu)
+        # Context menu untuk daftarInputFiles_treeWidget
+        self.ui.daftarInputFiles_treeWidget.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
+        self.ui.daftarInputFiles_treeWidget.customContextMenuRequested.connect(self.open_source_context_menu)
+
+        # Context menu untuk daftarOutputFiles_treeWidget
+        self.ui.daftarOutputFiles_treeWidget.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
+        self.ui.daftarOutputFiles_treeWidget.customContextMenuRequested.connect(self.open_output_context_menu)
 
         # Variabel untuk melacak pilihan menimpa otomatis
         self.auto_overwrite = False
 
         # Menghubungkan QTextEdit yang sudah ada dengan fungsi drag and drop
-        self.ui.textEditDragDropFiles.setAcceptDrops(True)
-        self.ui.textEditDragDropFiles.dragEnterEvent = self.dragEnterEvent
-        self.ui.textEditDragDropFiles.dragMoveEvent = self.dragMoveEvent
-        self.ui.textEditDragDropFiles.dropEvent = self.dropEvent
+        self.ui.dragDropFiles_frame.setAcceptDrops(True)
+        self.ui.dragDropFiles_frame.dragEnterEvent = self.dragEnterEvent
+        self.ui.dragDropFiles_frame.dragMoveEvent = self.dragMoveEvent
+        self.ui.dragDropFiles_frame.dropEvent = self.dropEvent
 
         # Membaca pengaturan konfigurasi dari file saat aplikasi dibuka
         self.baca_pengaturan_conf()

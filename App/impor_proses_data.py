@@ -9,7 +9,6 @@ from App.salin_data_waktu_suhu import *
 from App.validasi_data_waktu import *
 from Utilities.pengaturan_func import *
 
-
 def start_import_excel(self):
     # Membuat folder "LOG" jika belum ada
     log_folder = "LOG"
@@ -20,12 +19,13 @@ def start_import_excel(self):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     log_file_path = f'{log_folder}/proses_excel_data_log_{timestamp}.txt'
 
-    self.ui.listItems_outputFilesXLSX.clear()  # Mereset konten list item
+    self.ui.daftarOutputFiles_treeWidget.clear()  # Mereset konten list item
     processed_files = []  # List untuk menyimpan nama file yang berhasil diproses
     failed_files = []  # List untuk menyimpan nama file yang gagal diproses
 
-    for index in range(self.ui.listItems_filesSource.count()):
-        file_path = self.ui.listItems_filesSource.item(index).text()
+    for index in range(self.ui.daftarInputFiles_treeWidget.topLevelItemCount()):
+        item = self.ui.daftarInputFiles_treeWidget.topLevelItem(index)
+        file_path = item.toolTip(0)  # Mengambil path file dari tooltip
         try:
             self.import_excel_with_progress(file_path, failed_files)
             processed_files.append(os.path.basename(file_path))  # Menambahkan nama file yang berhasil diproses ke list
@@ -81,7 +81,7 @@ def import_excel_with_progress(self, file_path, failed_files):
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         temp_file_path = os.path.join(temp_folder, f"{name}_{timestamp}{ext}")
     
-    if increment > 0 and not self.auto_overwrite:
+    if increment > 0 and not getattr(self, 'auto_overwrite', False):
         reply = QtWidgets.QMessageBox.question(self, "Konfirmasi", 
                                                f"File {base_name} sudah ada. Gunakan nama {os.path.basename(temp_file_path)}?",
                                                QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No | QtWidgets.QMessageBox.StandardButton.YesToAll)
@@ -108,8 +108,9 @@ def import_excel_with_progress(self, file_path, failed_files):
         QtWidgets.QMessageBox.critical(self, "Error", f"Tidak dapat menggunakan file excel karena kamu sedang membuka atau menggunakan filenya atau file tidak ada !!! : {str(e)}")
         return
 
-    # Menambahkan nama file yang berhasil diolah ke listItems_outputFilesXLSX
-    self.ui.listItems_outputFilesXLSX.addItem(os.path.basename(temp_file_path))
+    # Menambahkan nama file yang berhasil diolah ke daftarOutputFiles_treeWidget
+    item = QtWidgets.QTreeWidgetItem([os.path.basename(temp_file_path)])  # Membuat item baru
+    self.ui.daftarOutputFiles_treeWidget.addTopLevelItem(item)  # Menambahkan item ke daftarOutputFiles_treeWidget
 
     # Mengatur nilai awal progress bar
     self.ui.progressBar.setValue(0)

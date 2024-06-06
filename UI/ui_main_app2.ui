@@ -6,21 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>702</height>
+    <width>1009</width>
+    <height>797</height>
    </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>900</width>
-    <height>702</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>900</width>
-    <height>702</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>Saving Your Quality Time</string>
@@ -61,51 +49,6 @@ QPushButton#pengaturan_btn {
 </string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="BrowseFile_btn">
-    <property name="geometry">
-     <rect>
-      <x>19</x>
-      <y>120</y>
-      <width>151</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="text">
-     <string>Pilih File / Folder .xlsx</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="openFileFolder_btn">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>620</y>
-      <width>161</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="text">
-     <string>Buka Folder Output .xlsx</string>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="progressBar">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>430</y>
-      <width>221</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_PT">
     <property name="geometry">
      <rect>
@@ -125,112 +68,11 @@ QPushButton#pengaturan_btn {
      <string>PT. CAYADEWI SEHAT INDONESIA ABADI</string>
     </property>
    </widget>
-   <widget class="QListWidget" name="listItems_outputFilesXLSX">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>470</y>
-      <width>341</width>
-      <height>141</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-   </widget>
-   <widget class="QListWidget" name="listItems_filesSource">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>280</y>
-      <width>341</width>
-      <height>141</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="isidansalinData_btn">
-    <property name="geometry">
-     <rect>
-      <x>169</x>
-      <y>430</y>
-      <width>111</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="text">
-     <string>ISI DATA EXCEL</string>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="textEditDragDropFiles">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>160</y>
-      <width>491</width>
-      <height>111</height>
-     </rect>
-    </property>
-    <property name="cursor" stdset="0">
-     <cursorShape>ClosedHandCursor</cursorShape>
-    </property>
-    <property name="toolTip">
-     <string>Jatuhkan File Excel .xlsx disini</string>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Box</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
-    </property>
-    <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
-    </property>
-    <property name="horizontalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
-    </property>
-    <property name="textInteractionFlags">
-     <set>Qt::NoTextInteraction</set>
-    </property>
-    <property name="placeholderText">
-     <string>Drag &amp; Drop File .xlsx Disini ...</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="cekValidasiFile_btn">
-    <property name="geometry">
-     <rect>
-      <x>620</x>
-      <y>530</y>
-      <width>148</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton#cekValidasiFile_btn{
-	background-color: qlineargradient(spread:pad, x1:0.131, y1:0, x2:0.591, y2:1, stop:0 rgba(255, 85, 0, 255), stop:1 rgba(254, 189, 89, 255));
-	border: 3px solid #ffffff;
-}</string>
-    </property>
-    <property name="text">
-     <string>Grafik Analisa</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="konversiXLStoXLSX_btn">
     <property name="geometry">
      <rect>
-      <x>620</x>
-      <y>590</y>
+      <x>520</x>
+      <y>550</y>
       <width>148</width>
       <height>50</height>
      </rect>
@@ -267,10 +109,10 @@ QPushButton#pengaturan_btn {
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="QFrame" name="konfigurasi_frame">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>510</x>
       <y>160</y>
       <width>361</width>
       <height>245</height>
@@ -304,7 +146,7 @@ QPushButton#pengaturan_btn {
       <string>Pilih Warna Suhu 2</string>
      </property>
     </widget>
-    <widget class="QLabel" name="WaktuHoldingLabel">
+    <widget class="QLabel" name="waktuHoldingLabel">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -523,8 +365,8 @@ QPushButton#pengaturan_btn {
    <widget class="QLabel" name="original_img">
     <property name="geometry">
      <rect>
-      <x>-30</x>
-      <y>240</y>
+      <x>730</x>
+      <y>380</y>
       <width>251</width>
       <height>351</height>
      </rect>
@@ -539,48 +381,10 @@ QPushButton#pengaturan_btn {
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="original_img_2">
-    <property name="geometry">
-     <rect>
-      <x>460</x>
-      <y>400</y>
-      <width>241</width>
-      <height>271</height>
-     </rect>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/IMAGE/bg/3.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="original_img_3">
-    <property name="geometry">
-     <rect>
-      <x>-40</x>
-      <y>500</y>
-      <width>231</width>
-      <height>321</height>
-     </rect>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/IMAGE/bg/1.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
    <widget class="QLabel" name="original_img_6">
     <property name="geometry">
      <rect>
-      <x>630</x>
+      <x>660</x>
       <y>340</y>
       <width>301</width>
       <height>421</height>
@@ -599,8 +403,8 @@ QPushButton#pengaturan_btn {
    <widget class="QLabel" name="original_img_7">
     <property name="geometry">
      <rect>
-      <x>-30</x>
-      <y>460</y>
+      <x>0</x>
+      <y>560</y>
       <width>141</width>
       <height>211</height>
      </rect>
@@ -618,8 +422,8 @@ QPushButton#pengaturan_btn {
    <widget class="QLabel" name="original_img_4">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>40</y>
+      <x>790</x>
+      <y>20</y>
       <width>181</width>
       <height>141</height>
      </rect>
@@ -637,8 +441,8 @@ QPushButton#pengaturan_btn {
    <widget class="QLabel" name="original_img_8">
     <property name="geometry">
      <rect>
-      <x>380</x>
-      <y>-20</y>
+      <x>430</x>
+      <y>-30</y>
       <width>211</width>
       <height>251</height>
      </rect>
@@ -656,8 +460,8 @@ QPushButton#pengaturan_btn {
    <widget class="QPushButton" name="simpanPengaturan_btn">
     <property name="geometry">
      <rect>
-      <x>620</x>
-      <y>420</y>
+      <x>530</x>
+      <y>490</y>
       <width>141</width>
       <height>40</height>
      </rect>
@@ -669,26 +473,228 @@ QPushButton#pengaturan_btn {
      <string>Simpan Konfigurasi</string>
     </property>
    </widget>
-   <zorder>listItems_outputFilesXLSX</zorder>
-   <zorder>listItems_filesSource</zorder>
-   <zorder>logoOT_img</zorder>
-   <zorder>original_img_3</zorder>
-   <zorder>original_img_6</zorder>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>140</y>
+      <width>431</width>
+      <height>461</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="inputOutput_Layout">
+     <item>
+      <widget class="QPushButton" name="browseFile_btn">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>Pilih File / Folder .xlsx</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="dragDropFiles_frame">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="cursor">
+        <cursorShape>ClosedHandCursor</cursorShape>
+       </property>
+       <property name="acceptDrops">
+        <bool>true</bool>
+       </property>
+       <property name="toolTip">
+        <string>Jatuhkan file Excel .xlsx disini...</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #febc5a;</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QLabel" name="labeldrophere">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>30</y>
+          <width>158</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Drag &amp; Drop File .xlsx Disini .. </string>
+        </property>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTreeWidget" name="daftarInputFiles_treeWidget">
+       <property name="sizeAdjustPolicy">
+        <enum>QAbstractScrollArea::AdjustToContents</enum>
+       </property>
+       <property name="dragEnabled">
+        <bool>true</bool>
+       </property>
+       <property name="dragDropOverwriteMode">
+        <bool>true</bool>
+       </property>
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::DragDrop</enum>
+       </property>
+       <property name="sortingEnabled">
+        <bool>true</bool>
+       </property>
+       <column>
+        <property name="text">
+         <string>Name</string>
+        </property>
+        <property name="toolTip">
+         <string>Daftar file Excel .xlsx yang akan di proses.</string>
+        </property>
+        <property name="whatsThis">
+         <string>Daftar file Excel .xlsx yang akan di proses.</string>
+        </property>
+        <property name="font">
+         <font>
+          <family>Roboto</family>
+         </font>
+        </property>
+        <property name="background">
+         <color>
+          <red>242</red>
+          <green>180</green>
+          <blue>85</blue>
+         </color>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Date Modified</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Type</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Size</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="isiDataProgress_Layout">
+       <item>
+        <widget class="QPushButton" name="isidansalinData_btn">
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="text">
+          <string>ISI DATA EXCEL</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QProgressBar" name="progressBar">
+         <property name="value">
+          <number>24</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QTreeWidget" name="daftarOutputFiles_treeWidget">
+       <property name="sizeAdjustPolicy">
+        <enum>QAbstractScrollArea::AdjustToContents</enum>
+       </property>
+       <property name="dragEnabled">
+        <bool>true</bool>
+       </property>
+       <property name="dragDropOverwriteMode">
+        <bool>true</bool>
+       </property>
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::DragDrop</enum>
+       </property>
+       <property name="sortingEnabled">
+        <bool>true</bool>
+       </property>
+       <column>
+        <property name="text">
+         <string>Name</string>
+        </property>
+        <property name="toolTip">
+         <string>Daftar file Excel .xlsx yang sudah di proses akan ditampilkan di dalam box ini.</string>
+        </property>
+        <property name="whatsThis">
+         <string>Daftar file Excel .xlsx yang sudah di proses.</string>
+        </property>
+        <property name="font">
+         <font>
+          <family>Roboto</family>
+         </font>
+        </property>
+        <property name="background">
+         <color>
+          <red>242</red>
+          <green>180</green>
+          <blue>85</blue>
+         </color>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Date Modified</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Type</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Size</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="openFileFolder_btn">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>Buka Folder Output .xlsx</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
    <zorder>original_img_8</zorder>
-   <zorder>BrowseFile_btn</zorder>
-   <zorder>openFileFolder_btn</zorder>
-   <zorder>progressBar</zorder>
+   <zorder>logoOT_img</zorder>
+   <zorder>original_img_6</zorder>
    <zorder>label_PT</zorder>
-   <zorder>textEditDragDropFiles</zorder>
-   <zorder>frame</zorder>
+   <zorder>konfigurasi_frame</zorder>
    <zorder>original_img_4</zorder>
-   <zorder>original_img_2</zorder>
    <zorder>simpanPengaturan_btn</zorder>
-   <zorder>cekValidasiFile_btn</zorder>
    <zorder>konversiXLStoXLSX_btn</zorder>
-   <zorder>original_img</zorder>
-   <zorder>isidansalinData_btn</zorder>
    <zorder>original_img_7</zorder>
+   <zorder>verticalLayoutWidget</zorder>
+   <zorder>original_img</zorder>
   </widget>
   <action name="actionBatch_Convert_XLS_to_XLSX">
    <property name="text">

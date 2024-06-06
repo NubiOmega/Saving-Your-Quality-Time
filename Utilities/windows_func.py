@@ -1,6 +1,6 @@
 import os
 import subprocess
-from PyQt6 import QtWidgets
+from PyQt6 import QtWidgets, QtCore
 
 def browse_files(self):
     try:
@@ -11,15 +11,40 @@ def browse_files(self):
         file_dialog.setNameFilter("Excel Files (*.xlsx)")
         if file_dialog.exec():
             file_paths = file_dialog.selectedFiles()
-            self.ui.listItems_filesSource.clear()  # Mereset konten list item
             for file_path in file_paths:
-                self.ui.listItems_filesSource.addItem(file_path)  # Menggunakan path lengkap untuk source files
+                file_info = QtCore.QFileInfo(file_path)
+                
+                # Mengambil informasi file
+                file_name = file_info.fileName()
+                file_modified_date = file_info.lastModified().toString(QtCore.Qt.DateFormat.ISODate)
+                file_type = file_info.suffix()
+                file_size = f"{file_info.size() / 1024:.2f} KB"
+                
+                # Cek apakah file sudah ada dalam daftar
+                if self.fileExists(file_path):
+                    QtWidgets.QMessageBox.warning(self, "File Duplikat", f"File '{file_path}' sudah ada dalam daftar.")
+                    continue
+                
+                # Membuat item baru dengan informasi file
+                item = QtWidgets.QTreeWidgetItem([file_name, file_modified_date, file_type, file_size])
+                item.setToolTip(0, file_path)  # Mengatur tooltip untuk item
+                self.ui.daftarInputFiles_treeWidget.addTopLevelItem(item)  # Menambahkan item ke daftarInputFiles_treeWidget
     except Exception as e:
         QtWidgets.QMessageBox.critical(self, "Error", f"Terjadi kesalahan saat memilih file: {e}")
 
+def fileExists(self, file_path):
+    try:
+        for row in range(self.ui.daftarInputFiles_treeWidget.topLevelItemCount()):
+            item = self.ui.daftarInputFiles_treeWidget.topLevelItem(row)
+            if item.toolTip(0) == file_path:
+                return True
+        return False
+    except Exception as e:
+        QtWidgets.QMessageBox.critical(self, "Error", f"Terjadi kesalahan saat memeriksa keberadaan file: {e}")
+
 def validate_and_start_import(self):
     try:
-        if self.ui.listItems_filesSource.count() == 0:
+        if self.ui.daftarInputFiles_treeWidget.topLevelItemCount() == 0:
             QtWidgets.QMessageBox.warning(self, "Peringatan", "Tidak ada file yang diunggah. Silakan unggah file Excel .xlsx terlebih dahulu!")
         else:
             self.start_import_excel()
@@ -41,9 +66,9 @@ def open_selected_output_folder(self):
 
 def open_selected_source_file(self):
     try:
-        current_item = self.ui.listItems_filesSource.currentItem()
+        current_item = self.ui.daftarInputFiles_treeWidget.currentItem()
         if current_item:
-            file_path = current_item.text()
+            file_path = current_item.toolTip(0)
             if os.path.exists(file_path):
                 if os.name == 'nt':
                     os.startfile(file_path)
@@ -58,9 +83,9 @@ def open_selected_source_file(self):
 
 def open_selected_source_folder(self):
     try:
-        current_item = self.ui.listItems_filesSource.currentItem()
+        current_item = self.ui.daftarInputFiles_treeWidget.currentItem()
         if current_item:
-            folder_path = os.path.dirname(current_item.text())
+            folder_path = os.path.dirname(current_item.toolTip(0))
             if os.path.exists(folder_path):
                 if os.name == 'nt':
                     os.startfile(folder_path)
@@ -78,12 +103,18 @@ def open_output_context_menu(self, position):
         menu = QtWidgets.QMenu()
         open_file_action = menu.addAction("Buka File")
         open_folder_action = menu.addAction("Buka Folder")
+        delete_selected_action = menu.addAction("Hapus Item Terpilih")
+        delete_all_action = menu.addAction("Hapus Semua Item")
 
-        action = menu.exec(self.ui.listItems_outputFilesXLSX.mapToGlobal(position))
+        action = menu.exec(self.ui.daftarOutputFiles_treeWidget.mapToGlobal(position))
         if action == open_file_action:
             self.open_selected_output_file()
         elif action == open_folder_action:
             self.open_selected_output_folder()
+        elif action == delete_selected_action:
+            self.delete_selected_output_items()
+        elif action == delete_all_action:
+            self.delete_all_output_items()
     except Exception as e:
         QtWidgets.QMessageBox.critical(self, "Error", f"Terjadi kesalahan saat membuka menu konteks: {e}")
 
@@ -92,20 +123,26 @@ def open_source_context_menu(self, position):
         menu = QtWidgets.QMenu()
         open_file_action = menu.addAction("Buka File")
         open_folder_action = menu.addAction("Buka Folder")
+        delete_selected_action = menu.addAction("Hapus Item Terpilih")
+        delete_all_action = menu.addAction("Hapus Semua Item")
 
-        action = menu.exec(self.ui.listItems_filesSource.mapToGlobal(position))
+        action = menu.exec(self.ui.daftarInputFiles_treeWidget.mapToGlobal(position))
         if action == open_file_action:
             self.open_selected_source_file()
         elif action == open_folder_action:
             self.open_selected_source_folder()
+        elif action == delete_selected_action:
+            self.delete_selected_input_items()
+        elif action == delete_all_action:
+            self.delete_all_input_items()
     except Exception as e:
         QtWidgets.QMessageBox.critical(self, "Error", f"Terjadi kesalahan saat membuka menu konteks: {e}")
 
 def open_selected_output_file(self):
     try:
-        current_item = self.ui.listItems_outputFilesXLSX.currentItem()
+        current_item = self.ui.daftarOutputFiles_treeWidget.currentItem()
         if current_item:
-            file_path = os.path.join("hasil data", current_item.text())
+            file_path = os.path.join("hasil data", current_item.text(0))
             if os.path.exists(file_path):
                 if os.name == 'nt':
                     os.startfile(file_path)
@@ -130,3 +167,39 @@ def open_output_folder(self):
             QtWidgets.QMessageBox.warning(self, "Peringatan", "Belum ada file Excel yang diproses,\nSilahkan lakukan proses impor dan isi data Excel .xlsx terlebih dahulu!!")
     except Exception as e:
         QtWidgets.QMessageBox.critical(self, "Error", f"Terjadi kesalahan saat membuka folder output: {e}")
+
+def delete_selected_input_items(self):
+    try:
+        selected_items = self.ui.daftarInputFiles_treeWidget.selectedItems()
+        if selected_items:
+            for item in selected_items:
+                index = self.ui.daftarInputFiles_treeWidget.indexOfTopLevelItem(item)
+                self.ui.daftarInputFiles_treeWidget.takeTopLevelItem(index)
+        else:
+            QtWidgets.QMessageBox.warning(self, "Peringatan", "Tidak ada item yang dipilih!")
+    except Exception as e:
+        QtWidgets.QMessageBox.critical(self, "Error", f"Terjadi kesalahan saat menghapus item terpilih: {e}")
+
+def delete_all_input_items(self):
+    try:
+        self.ui.daftarInputFiles_treeWidget.clear()
+    except Exception as e:
+        QtWidgets.QMessageBox.critical(self, "Error", f"Terjadi kesalahan saat menghapus semua item: {e}")
+
+def delete_selected_output_items(self):
+    try:
+        selected_items = self.ui.daftarOutputFiles_treeWidget.selectedItems()
+        if selected_items:
+            for item in selected_items:
+                index = self.ui.daftarOutputFiles_treeWidget.indexOfTopLevelItem(item)
+                self.ui.daftarOutputFiles_treeWidget.takeTopLevelItem(index)
+        else:
+            QtWidgets.QMessageBox.warning(self, "Peringatan", "Tidak ada item yang dipilih!")
+    except Exception as e:
+        QtWidgets.QMessageBox.critical(self, "Error", f"Terjadi kesalahan saat menghapus item terpilih: {e}")
+
+def delete_all_output_items(self):
+    try:
+        self.ui.daftarOutputFiles_treeWidget.clear()
+    except Exception as e:
+        QtWidgets.QMessageBox.critical(self, "Error", f"Terjadi kesalahan saat menghapus semua item: {e}")

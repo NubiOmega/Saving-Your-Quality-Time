@@ -30,10 +30,17 @@ def dropEvent(self, event):
                 if url.isLocalFile() and url.toLocalFile().endswith('.xlsx'):
                     file_path = url.toLocalFile()
                     if not self.fileExists(file_path):
-                        # Tambahkan item ke listItems_filesSource
-                        item = QtWidgets.QListWidgetItem(file_path)
-                        item.setToolTip(file_path)
-                        self.ui.listItems_filesSource.addItem(item)
+                        # Ambil informasi file
+                        file_info = QtCore.QFileInfo(file_path)
+                        file_name = file_info.fileName()
+                        file_modified_date = file_info.lastModified().toString(QtCore.Qt.DateFormat.ISODate)
+                        file_type = file_info.suffix()
+                        file_size = f"{file_info.size() / 1024:.2f} KB"
+
+                        # Tambahkan item ke daftarInputFiles_treeWidget dengan informasi file
+                        item = QtWidgets.QTreeWidgetItem([file_name, file_modified_date, file_type, file_size])
+                        item.setToolTip(0, file_path)  # Mengatur tooltip untuk item
+                        self.ui.daftarInputFiles_treeWidget.addTopLevelItem(item)  # Menambahkan item ke daftarInputFiles_treeWidget
                     else:
                         QtWidgets.QMessageBox.warning(self, "File Duplikat", f"File '{file_path}' sudah ada dalam daftar.")
                 else:
@@ -45,9 +52,9 @@ def dropEvent(self, event):
 
 def fileExists(self, file_path):
     try:
-        for row in range(self.ui.listItems_filesSource.count()):
-            item = self.ui.listItems_filesSource.item(row)
-            if item.toolTip() == file_path:
+        for index in range(self.ui.daftarInputFiles_treeWidget.topLevelItemCount()):
+            item = self.ui.daftarInputFiles_treeWidget.topLevelItem(index)
+            if item.toolTip(0) == file_path:
                 return True
         return False
     except Exception as e:
