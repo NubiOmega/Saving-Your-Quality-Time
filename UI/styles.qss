@@ -6,7 +6,7 @@ QPushButton {
     color: #ffffff;
     border: none;
     padding: 5px 10px;    
-	font: 10pt "Roboto";
+	font: 8pt "Ubuntu";
     border-radius: 5px;
 }
 QPushButton#pengaturan_btn {
@@ -33,7 +33,7 @@ QPushButton#pengaturan_btn {
 QTreeWidget {
     border: 1px solid #c06000;
     background-color: rgb(254, 189, 89);
-    font: 500 9pt "Roboto Medium";
+    font: 500 8pt "Ubuntu Medium";
 }
 
 QTreeWidget::item {
@@ -53,7 +53,7 @@ QHeaderView::section {
     padding-right: 4px;
     border-top: 0px solid #c06000;
     border-bottom: 1px solid #c06000;
-    font: 500 9pt "Roboto Medium";
+    font: 500 8pt "Ubuntu Medium";
 }
 
 QHeaderView::section:hover {

@@ -20,7 +20,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet("QMainWindow {\n"
 "    background-color: #fedb59;\n"
-"    font: 8pt \"Roboto\";\n"
+"    font: 8pt \"Ubuntu\";\n"
 "    color: #ffffff;\n"
 "}\n"
 "QPushButton {\n"
@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
 "    color: #ffffff;\n"
 "    border: none;\n"
 "    padding: 5px 10px;    \n"
-"    font: 8pt \"Roboto\";\n"
+"    font: 8pt \"Ubuntu\";\n"
 "    border-radius: 5px;\n"
 "}\n"
 "QListWidget {\n"
@@ -50,7 +50,7 @@ class Ui_MainWindow(object):
 "    border: 1px solid #c06000;\n"
 "    border-radius: 8px;\n"
 "    background-color: rgb(254, 189, 89);\n"
-"    font: 500 8pt \"Roboto Medium\";\n"
+"    font: 500 8pt \"Ubuntu Medium\";\n"
 "}\n"
 "")
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
@@ -189,7 +189,7 @@ class Ui_MainWindow(object):
         self.simpanPengaturan_btn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.simpanPengaturan_btn.setGeometry(QtCore.QRect(660, 360, 131, 40))
         font = QtGui.QFont()
-        font.setFamily("Roboto")
+        font.setFamily("Ubuntu")
         font.setPointSize(8)
         font.setBold(False)
         font.setItalic(False)
@@ -256,7 +256,7 @@ class Ui_MainWindow(object):
         self.openFileFolder_btn.setMinimumSize(QtCore.QSize(140, 30))
         self.openFileFolder_btn.setMaximumSize(QtCore.QSize(140, 30))
         font = QtGui.QFont()
-        font.setFamily("Roboto")
+        font.setFamily("Ubuntu")
         font.setPointSize(8)
         font.setBold(False)
         font.setItalic(False)
@@ -264,6 +264,12 @@ class Ui_MainWindow(object):
         self.openFileFolder_btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.openFileFolder_btn.setObjectName("openFileFolder_btn")
         self.verticalLayout.addWidget(self.openFileFolder_btn)
+        self.original_img_2 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.original_img_2.setGeometry(QtCore.QRect(530, 620, 121, 81))
+        self.original_img_2.setPixmap(QtGui.QPixmap(":/IMAGE/bg/11.png"))
+        self.original_img_2.setScaledContents(True)
+        self.original_img_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.original_img_2.setObjectName("original_img_2")
         self.konfigurasi_frame.raise_()
         self.original_img_8.raise_()
         self.logoOT_img.raise_()
@@ -276,6 +282,7 @@ class Ui_MainWindow(object):
         self.verticalLayoutWidget_2.raise_()
         self.simpanPengaturan_btn.raise_()
         self.konversiXLStoXLSX_btn.raise_()
+        self.original_img_2.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
         self.actionBatch_Convert_XLS_to_XLSX = QtGui.QAction(parent=MainWindow)
         self.actionBatch_Convert_XLS_to_XLSX.setObjectName("actionBatch_Convert_XLS_to_XLSX")
@@ -305,7 +312,6 @@ class Ui_MainWindow(object):
         self.batasSuhu1Label.setText(_translate("MainWindow", "Batas Suhu 1 (e.g. 40.0 derajat )"))
         self.holdingTime_lineEdit.setToolTip(_translate("MainWindow", "<html><head/><body><p>Kamu bisa mengatur waktu holding time dengan format time Jam : Menit : Detik.</p><p>Pastikan memasukkan waktu dengan format HH:MM:SS</p></body></html>"))
         self.holdingTime_lineEdit.setPlaceholderText(_translate("MainWindow", "e.g. 00:09:00"))
-        self.original_img.setToolTip(_translate("MainWindow", "<html><head/><body><p>Gunakan tombol &quot;Simpan Konfigurasi&quot; untuk menyimpan konfigurasi aplikasi !</p></body></html>"))
         self.simpanPengaturan_btn.setToolTip(_translate("MainWindow", "<html><head/><body><p>Gunakan tombol &quot;Simpan Konfigurasi&quot; untuk menyimpan konfigurasi yang sudah kamu sesuaikan !</p></body></html>"))
         self.simpanPengaturan_btn.setWhatsThis(_translate("MainWindow", "<html><head/><body><p><br/></p></body></html>"))
         self.simpanPengaturan_btn.setText(_translate("MainWindow", "Simpan Konfigurasi"))

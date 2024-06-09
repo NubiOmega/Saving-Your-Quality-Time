@@ -23,16 +23,23 @@
    <iconset resource="../resources.qrc">
     <normaloff>:/IMAGE/bg/logo.ico</normaloff>:/IMAGE/bg/logo.ico</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true">font: 8pt &quot;Roboto&quot;;</string>
+  </property>
   <widget class="QWidget" name="main_vLayout">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QLabel" name="label_judul">
       <property name="font">
        <font>
-        <family>Roboto</family>
-        <pointsize>14</pointsize>
+        <family>Ubuntu</family>
+        <pointsize>11</pointsize>
+        <italic>false</italic>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 700 Bold 11pt &quot;Ubuntu&quot;;</string>
       </property>
       <property name="text">
        <string>Batch Konversi xls ke xlsx</string>
@@ -60,7 +67,10 @@
         </property>
         <property name="font">
          <font>
+          <family>Roboto</family>
           <pointsize>8</pointsize>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="cursor">
@@ -115,7 +125,7 @@
       </column>
       <column>
        <property name="text">
-        <string>New Column</string>
+        <string>Type</string>
        </property>
       </column>
       <column>
@@ -143,7 +153,10 @@
         </property>
         <property name="font">
          <font>
+          <family>Roboto</family>
           <pointsize>8</pointsize>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="cursor">
@@ -188,17 +201,17 @@
       </property>
       <column>
        <property name="text">
-        <string>New Column</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
         <string>Name</string>
        </property>
       </column>
       <column>
        <property name="text">
         <string>Date Modified</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Type</string>
        </property>
       </column>
       <column>
@@ -239,7 +252,10 @@
         </property>
         <property name="font">
          <font>
+          <family>Roboto</family>
           <pointsize>8</pointsize>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="cursor">
@@ -282,7 +298,10 @@
         </property>
         <property name="font">
          <font>
+          <family>Roboto</family>
           <pointsize>8</pointsize>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="cursor">

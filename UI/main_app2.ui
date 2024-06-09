@@ -32,7 +32,7 @@
   <property name="styleSheet">
    <string notr="true">QMainWindow {
     background-color: #fedb59;
-	font: 8pt &quot;Roboto&quot;;
+	font: 8pt &quot;Ubuntu&quot;;
 	color: #ffffff;
 }
 QPushButton {
@@ -40,7 +40,7 @@ QPushButton {
     color: #ffffff;
     border: none;
     padding: 5px 10px;    
-	font: 8pt &quot;Roboto&quot;;
+	font: 8pt &quot;Ubuntu&quot;;
     border-radius: 5px;
 }
 QListWidget {
@@ -62,7 +62,7 @@ QFrame#konfigurasi_frame {
 	border: 1px solid #c06000;
 	border-radius: 8px;
 	background-color: rgb(254, 189, 89);
-	font: 500 8pt &quot;Roboto Medium&quot;;
+	font: 500 8pt &quot;Ubuntu Medium&quot;;
 }
 </string>
   </property>
@@ -422,9 +422,6 @@ QFrame#konfigurasi_frame {
       <height>341</height>
      </rect>
     </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Gunakan tombol &amp;quot;Simpan Konfigurasi&amp;quot; untuk menyimpan konfigurasi aplikasi !&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
     <property name="pixmap">
      <pixmap resource="../resources.qrc">:/IMAGE/bg/kiranti_original_yellow.png</pixmap>
     </property>
@@ -503,7 +500,7 @@ QFrame#konfigurasi_frame {
     </property>
     <property name="font">
      <font>
-      <family>Roboto</family>
+      <family>Ubuntu</family>
       <pointsize>8</pointsize>
       <italic>false</italic>
       <bold>false</bold>
@@ -751,7 +748,7 @@ QFrame#konfigurasi_frame {
        </property>
        <property name="font">
         <font>
-         <family>Roboto</family>
+         <family>Ubuntu</family>
          <pointsize>8</pointsize>
          <italic>false</italic>
          <bold>false</bold>
@@ -773,6 +770,25 @@ QFrame#konfigurasi_frame {
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="original_img_2">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>620</y>
+      <width>121</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../resources.qrc">:/IMAGE/bg/11.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
    <zorder>konfigurasi_frame</zorder>
    <zorder>original_img_8</zorder>
    <zorder>logoOT_img</zorder>
@@ -785,6 +801,7 @@ QFrame#konfigurasi_frame {
    <zorder>verticalLayoutWidget_2</zorder>
    <zorder>simpanPengaturan_btn</zorder>
    <zorder>konversiXLStoXLSX_btn</zorder>
+   <zorder>original_img_2</zorder>
   </widget>
   <action name="actionBatch_Convert_XLS_to_XLSX">
    <property name="text">
