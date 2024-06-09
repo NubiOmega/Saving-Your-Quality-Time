@@ -1,6 +1,7 @@
 import os
 import subprocess
 from PyQt6 import QtWidgets, QtCore
+from Utilities.dragndrop_files_func import *
 
 def browse_files(self):
     try:
@@ -29,18 +30,12 @@ def browse_files(self):
                 item = QtWidgets.QTreeWidgetItem([file_name, file_modified_date, file_type, file_size])
                 item.setToolTip(0, file_path)  # Mengatur tooltip untuk item
                 self.ui.daftarInputFiles_treeWidget.addTopLevelItem(item)  # Menambahkan item ke daftarInputFiles_treeWidget
+            
+            # Mengatur ukuran kolom sesuai dengan isi konten setelah semua item ditambahkan
+            for i in range(self.ui.daftarInputFiles_treeWidget.columnCount()):
+                self.ui.daftarInputFiles_treeWidget.resizeColumnToContents(i)
     except Exception as e:
         QtWidgets.QMessageBox.critical(self, "Error", f"Terjadi kesalahan saat memilih file: {e}")
-
-def fileExists(self, file_path):
-    try:
-        for row in range(self.ui.daftarInputFiles_treeWidget.topLevelItemCount()):
-            item = self.ui.daftarInputFiles_treeWidget.topLevelItem(row)
-            if item.toolTip(0) == file_path:
-                return True
-        return False
-    except Exception as e:
-        QtWidgets.QMessageBox.critical(self, "Error", f"Terjadi kesalahan saat memeriksa keberadaan file: {e}")
 
 def validate_and_start_import(self):
     try:

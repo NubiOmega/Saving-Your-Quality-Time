@@ -9,6 +9,7 @@ from App.salin_data_waktu_suhu import *
 from App.validasi_data_waktu import *
 from Utilities.pengaturan_func import *
 
+
 def start_import_excel(self):
     # Membuat folder "LOG" jika belum ada
     log_folder = "LOG"
@@ -108,9 +109,21 @@ def import_excel_with_progress(self, file_path, failed_files):
         QtWidgets.QMessageBox.critical(self, "Error", f"Tidak dapat menggunakan file excel karena kamu sedang membuka atau menggunakan filenya atau file tidak ada !!! : {str(e)}")
         return
 
-    # Menambahkan nama file yang berhasil diolah ke daftarOutputFiles_treeWidget
-    item = QtWidgets.QTreeWidgetItem([os.path.basename(temp_file_path)])  # Membuat item baru
+    # Mengambil informasi file
+    file_info = QtCore.QFileInfo(temp_file_path)
+    file_name = file_info.fileName()
+    file_modified_date = file_info.lastModified().toString(QtCore.Qt.DateFormat.ISODate)
+    file_type = file_info.suffix()
+    file_size = f"{file_info.size() / 1024:.2f} KB"
+
+    # Membuat item baru dengan informasi file
+    item = QtWidgets.QTreeWidgetItem([file_name, file_modified_date, file_type, file_size])
+    item.setToolTip(0, temp_file_path)  # Mengatur tooltip untuk item
     self.ui.daftarOutputFiles_treeWidget.addTopLevelItem(item)  # Menambahkan item ke daftarOutputFiles_treeWidget
+
+    # Mengatur ukuran kolom sesuai dengan isi konten setelah semua item ditambahkan
+    for i in range(self.ui.daftarOutputFiles_treeWidget.columnCount()):
+        self.ui.daftarOutputFiles_treeWidget.resizeColumnToContents(i)
 
     # Mengatur nilai awal progress bar
     self.ui.progressBar.setValue(0)

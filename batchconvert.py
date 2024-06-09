@@ -2,7 +2,7 @@ import os
 import sys
 import win32com.client as win32
 from PyQt6 import QtCore, QtGui, QtWidgets
-from UI.ui_batchxlstoxlsx import Ui_ConvertWindow
+from UI.batchxlstoxlsx_ui import Ui_ConvertWindow
 from Utilities.dragndrop_files_func import *
 import logging
 from datetime import datetime
@@ -38,25 +38,27 @@ class BatchConvertApp(QtWidgets.QMainWindow):
         self.ui.openFolderOutputXLSX_btn.clicked.connect(self.open_output_folder)
 
         # Menghubungkan QTextEdit yang sudah ada dengan fungsi drag and drop
-        self.ui.textEditDragDropFiles.setAcceptDrops(True)
-        self.ui.textEditDragDropFiles.dragEnterEvent = self.dragEnterEvent
-        self.ui.textEditDragDropFiles.dragMoveEvent = self.dragMoveEvent
-        self.ui.textEditDragDropFiles.dropEvent = self.dropEvent_convert_xls_xlsx
+        self.ui.lokasiSumber_treeWidget.setAcceptDrops(True)
+        self.ui.lokasiSumber_treeWidget.dragEnterEvent = self.dragEnterEvent
+        self.ui.lokasiSumber_treeWidget.dragMoveEvent = self.dragMoveEvent
+        self.ui.lokasiSumber_treeWidget.dropEvent = self.dropEvent_convert_xls_xlsx
 
         self.source_files = []
         self.output_folder = ""
         self.ui.progressBar.setValue(0)
 
         # Mengatur mode pemilihan QListWidget ke MultiSelection
-        self.ui.listFileItems_lokasiSumber.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.MultiSelection)
-        self.ui.listFileItems_lokasiTujuan.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.MultiSelection)
+        self.ui.lokasiSumber_treeWidget.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.MultiSelection)
+        self.ui.lokasiTujuan_treeWidget.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.MultiSelection)
 
         # Menambahkan event handler untuk klik kanan
-        self.ui.listFileItems_lokasiSumber.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
-        self.ui.listFileItems_lokasiSumber.customContextMenuRequested.connect(self.show_source_context_menu)
+        self.ui.lokasiSumber_treeWidget.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
+        self.ui.lokasiSumber_treeWidget.customContextMenuRequested.connect(self.show_source_context_menu)
+        self.ui.lokasiSumber_treeWidget.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
         
-        self.ui.listFileItems_lokasiTujuan.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
-        self.ui.listFileItems_lokasiTujuan.customContextMenuRequested.connect(self.show_output_context_menu)
+        self.ui.lokasiTujuan_treeWidget.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
+        self.ui.lokasiTujuan_treeWidget.customContextMenuRequested.connect(self.show_output_context_menu)
+        self.ui.lokasiTujuan_treeWidget.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
 
     def select_source_files(self):
         try:
@@ -65,9 +67,14 @@ class BatchConvertApp(QtWidgets.QMainWindow):
                 for filename in files:
                     if not self.fileExists_convert_xls_xlsx(filename):
                         self.source_files.append(filename)
-                        item = QtWidgets.QListWidgetItem(os.path.basename(filename))
-                        item.setToolTip(filename)
-                        self.ui.listFileItems_lokasiSumber.addItem(item)
+                        file_info = QtCore.QFileInfo(filename)
+                        file_name = file_info.fileName()
+                        file_modified_date = file_info.lastModified().toString(QtCore.Qt.DateFormat.ISODate)
+                        file_type = file_info.suffix()
+                        file_size = f"{file_info.size() / 1024:.2f} KB"
+                        item = QtWidgets.QTreeWidgetItem([file_name, file_modified_date, file_type, file_size])
+                        item.setToolTip(0, filename)
+                        self.ui.lokasiSumber_treeWidget.addTopLevelItem(item)
             else:
                 raise Exception("Tidak ada file yang dipilih.")
         except Exception as e:
@@ -127,7 +134,7 @@ class BatchConvertApp(QtWidgets.QMainWindow):
             self.ui.progressBar.setValue(0)
             successful_conversions = 0
 
-            self.ui.listFileItems_lokasiTujuan.clear()  # Menghapus daftar item pada listFileItems_lokasiTujuan sebelum konversi baru
+            self.ui.lokasiTujuan_treeWidget.clear()  # Menghapus daftar item pada lokasiTujuan_treeWidget sebelum konversi baru
 
             for index, source_file in enumerate(self.source_files):
                 filename = os.path.basename(source_file)
@@ -141,9 +148,14 @@ class BatchConvertApp(QtWidgets.QMainWindow):
 
                 success, error = self.convert_xls_to_xlsx(source_file, dest_file)
                 if success:
-                    item = QtWidgets.QListWidgetItem(filename.replace('.xls', '.xlsx'))
-                    item.setToolTip(dest_file)
-                    self.ui.listFileItems_lokasiTujuan.addItem(item)
+                    file_info = QtCore.QFileInfo(dest_file)
+                    file_name = file_info.fileName()
+                    file_modified_date = file_info.lastModified().toString(QtCore.Qt.DateFormat.ISODate)
+                    file_type = file_info.suffix()
+                    file_size = f"{file_info.size() / 1024:.2f} KB"
+                    item = QtWidgets.QTreeWidgetItem([file_name, file_modified_date, file_type, file_size])
+                    item.setToolTip(0, dest_file)
+                    self.ui.lokasiTujuan_treeWidget.addTopLevelItem(item)
                     successful_conversions += 1
                 else:
                     self.show_message_box('Gagal', f'Gagal mengonversi {source_file}. Error: {error}', QtWidgets.QMessageBox.Icon.Critical)
@@ -171,19 +183,19 @@ class BatchConvertApp(QtWidgets.QMainWindow):
             open_folder_action = menu.addAction("Buka Folder")
             delete_all_files_action = menu.addAction("Hapus Semua File")
             delete_selected_files_action = menu.addAction("Hapus File yang Dipilih")
-            action = menu.exec(self.ui.listFileItems_lokasiSumber.mapToGlobal(position))
+            action = menu.exec(self.ui.lokasiSumber_treeWidget.mapToGlobal(position))
 
             if action == open_file_action:
-                self.open_selected_file(self.ui.listFileItems_lokasiSumber)
+                self.open_selected_file(self.ui.lokasiSumber_treeWidget)
             elif action == open_folder_action:
                 if self.source_files:
-                    self.open_selected_folder(self.ui.listFileItems_lokasiSumber, os.path.dirname(self.source_files[0]))
+                    self.open_selected_folder(self.ui.lokasiSumber_treeWidget, os.path.dirname(self.source_files[0]))
                 else:
                     raise Exception("Tidak ada folder sumber yang dipilih.")
             elif action == delete_all_files_action:
-                self.delete_all_files(self.ui.listFileItems_lokasiSumber, self.source_files)
+                self.delete_all_files(self.ui.lokasiSumber_treeWidget, self.source_files)
             elif action == delete_selected_files_action:
-                self.delete_selected_files(self.ui.listFileItems_lokasiSumber, self.source_files)
+                self.delete_selected_files(self.ui.lokasiSumber_treeWidget, self.source_files)
         except Exception as e:
             self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
 
@@ -192,66 +204,90 @@ class BatchConvertApp(QtWidgets.QMainWindow):
             menu = QtWidgets.QMenu()
             open_file_action = menu.addAction("Buka File")
             open_folder_action = menu.addAction("Buka Folder")
+            delete_all_files_action = menu.addAction("Hapus Semua File")
             delete_selected_files_action = menu.addAction("Hapus File yang Dipilih")
-            action = menu.exec(self.ui.listFileItems_lokasiTujuan.mapToGlobal(position))
+            action = menu.exec(self.ui.lokasiTujuan_treeWidget.mapToGlobal(position))
 
             if action == open_file_action:
-                self.open_selected_file(self.ui.listFileItems_lokasiTujuan)
+                self.open_selected_file(self.ui.lokasiTujuan_treeWidget)
             elif action == open_folder_action:
                 if self.output_folder:
-                    self.open_selected_folder(self.ui.listFileItems_lokasiTujuan, self.output_folder)
+                    self.open_selected_folder(self.ui.lokasiTujuan_treeWidget, self.output_folder)
                 else:
-                    raise Exception("Tidak ada folder output yang dipilih.")
+                    raise Exception("Tidak ada folder tujuan yang dipilih.")
+            elif action == delete_all_files_action:
+                self.delete_all_files(self.ui.lokasiTujuan_treeWidget, [])
             elif action == delete_selected_files_action:
-                self.delete_selected_files(self.ui.listFileItems_lokasiTujuan)
+                self.delete_selected_files(self.ui.lokasiTujuan_treeWidget, [])
         except Exception as e:
             self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
 
-    def delete_all_files(self, list_widget, source_list=None):
+    def open_selected_file(self, treeWidget):
         try:
-            list_widget.clear()
-            if source_list:
-                source_list.clear()
-        except Exception as e:
-            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
-
-    def delete_selected_files(self, list_widget, source_list=None):
-        try:
-            selected_items = list_widget.selectedItems()
-            for item in selected_items:
-                file_path = item.toolTip()
-                if source_list:
-                    source_list.remove(file_path)
-                list_widget.takeItem(list_widget.row(item))
-        except Exception as e:
-            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
-
-    def open_selected_file(self, list_widget):
-        try:
-            selected_item = list_widget.currentItem()
-            if selected_item:
-                file_path = selected_item.toolTip()
-                if os.path.exists(file_path):
-                    os.startfile(file_path)
-                else:
-                    raise Exception("File tidak ditemukan.")
-        except Exception as e:
-            self.show_message_box("Peringatan", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Warning)
-
-    def open_selected_folder(self, list_widget, folder):
-        try:
-            if os.path.exists(folder):
-                os.startfile(folder)
+            selected_items = treeWidget.selectedItems()
+            if selected_items:
+                for item in selected_items:
+                    file_path = item.toolTip(0)
+                    if os.path.exists(file_path):
+                        os.startfile(file_path)
+                    else:
+                        raise Exception(f"File tidak ditemukan: {file_path}")
             else:
-                raise Exception("Folder tidak ditemukan.")
+                raise Exception("Tidak ada file yang dipilih.")
         except Exception as e:
-            self.show_message_box("Peringatan", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Warning)
+            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
+
+    def open_selected_folder(self, treeWidget, folder_path):
+        try:
+            if os.path.exists(folder_path):
+                os.startfile(folder_path)
+            else:
+                raise Exception(f"Folder tidak ditemukan: {folder_path}")
+        except Exception as e:
+            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
+
+    def delete_all_files(self, treeWidget, files_list):
+        try:
+            reply = QtWidgets.QMessageBox.question(
+                self, 'Konfirmasi Hapus Semua',
+                'Apakah Anda yakin ingin menghapus semua file?',
+                QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No,
+                QtWidgets.QMessageBox.StandardButton.No
+            )
+            if reply == QtWidgets.QMessageBox.StandardButton.Yes:
+                treeWidget.clear()
+                files_list.clear()
+        except Exception as e:
+            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
+
+    def delete_selected_files(self, treeWidget, files_list):
+        try:
+            selected_items = treeWidget.selectedItems()
+            if selected_items:
+                reply = QtWidgets.QMessageBox.question(
+                    self, 'Konfirmasi Hapus',
+                    'Apakah Anda yakin ingin menghapus file yang dipilih?',
+                    QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No,
+                    QtWidgets.QMessageBox.StandardButton.No
+                )
+                if reply == QtWidgets.QMessageBox.StandardButton.Yes:
+                    for item in selected_items:
+                        file_path = item.toolTip(0)
+                        index = next((i for i, f in enumerate(files_list) if f == file_path), None)
+                        if index is not None:
+                            files_list.pop(index)
+                        treeWidget.takeTopLevelItem(treeWidget.indexOfTopLevelItem(item))
+            else:
+                raise Exception("Tidak ada file yang dipilih.")
+        except Exception as e:
+            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
 
     # Metode drag drop file dari Utilities\dragndrop_files_func.py
     dragEnterEvent = dragEnterEvent
     dragMoveEvent = dragMoveEvent
     dropEvent_convert_xls_xlsx = dropEvent_convert_xls_xlsx
     fileExists_convert_xls_xlsx = fileExists_convert_xls_xlsx
+
 
 # if __name__ == "__main__":
 #     app = QtWidgets.QApplication(sys.argv)

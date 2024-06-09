@@ -1,7 +1,7 @@
 import sys
 import os
 from PyQt6 import QtCore, QtWidgets, QtGui
-from UI.ui_main_app2 import Ui_MainWindow  # Mengimpor kelas UI yang telah dihasilkan
+from UI.main_app2_ui import Ui_MainWindow  # Mengimpor kelas UI yang telah dihasilkan
 from datetime import datetime, time
 from openpyxl.styles import PatternFill
 from openpyxl.utils.cell import get_column_letter, column_index_from_string
@@ -35,20 +35,26 @@ class MainWindow(QtWidgets.QMainWindow):
         # Context menu untuk daftarInputFiles_treeWidget
         self.ui.daftarInputFiles_treeWidget.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
         self.ui.daftarInputFiles_treeWidget.customContextMenuRequested.connect(self.open_source_context_menu)
+        self.ui.daftarInputFiles_treeWidget.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
+        # headerdaftarInput = self.ui.daftarInputFiles_treeWidget.header()
+        # headerdaftarInput.setDefaultAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 
         # Context menu untuk daftarOutputFiles_treeWidget
         self.ui.daftarOutputFiles_treeWidget.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
         self.ui.daftarOutputFiles_treeWidget.customContextMenuRequested.connect(self.open_output_context_menu)
+        self.ui.daftarOutputFiles_treeWidget.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
+        # headerdaftarOutput = self.ui.daftarOutputFiles_treeWidget.header()
+        # headerdaftarOutput.setDefaultAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 
         # Variabel untuk melacak pilihan menimpa otomatis
         self.auto_overwrite = False
 
         # Menghubungkan QTextEdit yang sudah ada dengan fungsi drag and drop
-        self.ui.dragDropFiles_frame.setAcceptDrops(True)
-        self.ui.dragDropFiles_frame.dragEnterEvent = self.dragEnterEvent
-        self.ui.dragDropFiles_frame.dragMoveEvent = self.dragMoveEvent
-        self.ui.dragDropFiles_frame.dropEvent = self.dropEvent
-
+        self.ui.daftarInputFiles_treeWidget.setAcceptDrops(True)
+        self.ui.daftarInputFiles_treeWidget.dragEnterEvent = self.dragEnterEvent
+        self.ui.daftarInputFiles_treeWidget.dragMoveEvent = self.dragMoveEvent
+        self.ui.daftarInputFiles_treeWidget.dropEvent = self.dropEvent
+        
         # Membaca pengaturan konfigurasi dari file saat aplikasi dibuka
         self.baca_pengaturan_conf()
 
@@ -101,6 +107,12 @@ class MainWindow(QtWidgets.QMainWindow):
     pilih_warna_suhu1 = pilih_warna_suhu1
     pilih_warna_suhu2 = pilih_warna_suhu2
     pilih_warna_holding_time = pilih_warna_holding_time
+
+    # Metode untuk menghapus item yang dipilih dan semua item
+    delete_selected_input_items = delete_selected_input_items
+    delete_all_input_items = delete_all_input_items
+    delete_selected_output_items = delete_selected_output_items
+    delete_all_output_items = delete_all_output_items
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
