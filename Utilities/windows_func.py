@@ -9,7 +9,7 @@ def browse_files(self):
         file_dialog.setWindowTitle("Pilih File Excel atau Folder")
         file_dialog.setFileMode(QtWidgets.QFileDialog.FileMode.ExistingFiles)
         file_dialog.setViewMode(QtWidgets.QFileDialog.ViewMode.List)
-        file_dialog.setNameFilter("Excel Files (*.xlsx)")
+        file_dialog.setNameFilter("Excel Files (*xls *.xlsx)")
         if file_dialog.exec():
             file_paths = file_dialog.selectedFiles()
             for file_path in file_paths:

@@ -2,36 +2,70 @@ import os
 import shutil
 import openpyxl
 from PyQt6 import QtCore, QtWidgets
-from datetime import datetime, time
+from datetime import datetime
 from openpyxl.styles import PatternFill
 from openpyxl.utils.cell import get_column_letter, column_index_from_string
 from App.salin_data_waktu_suhu import *
 from App.validasi_data_waktu import *
 from Utilities.pengaturan_func import *
+import win32com.client as win32
 
+def konversi_xls_ke_xlsx(source_file, dest_file):
+    excel = win32.gencache.EnsureDispatch('Excel.Application')
+    try:
+        source_file = os.path.abspath(source_file)
+        dest_file = os.path.abspath(dest_file)
+
+        wb = excel.Workbooks.Open(source_file)
+        wb.SaveAs(dest_file, FileFormat=51)  # 51 adalah format untuk xlsx
+        wb.Close()
+        return True, None
+    except Exception as e:
+        return False, f"Gagal mengonversi {source_file}. Error: {str(e)}"
+    finally:
+        excel.Quit()
 
 def start_import_excel(self):
-    # Membuat folder "LOG" jika belum ada
     log_folder = "LOG"
     if not os.path.exists(log_folder):
         os.makedirs(log_folder)
 
-    # Menambahkan timestamp pada nama file log
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     log_file_path = f'{log_folder}/proses_excel_data_log_{timestamp}.txt'
 
-    self.ui.daftarOutputFiles_treeWidget.clear()  # Mereset konten list item
-    processed_files = []  # List untuk menyimpan nama file yang berhasil diproses
-    failed_files = []  # List untuk menyimpan nama file yang gagal diproses
+    self.ui.daftarOutputFiles_treeWidget.clear()
+    processed_files = []
+    failed_files = []
 
-    for index in range(self.ui.daftarInputFiles_treeWidget.topLevelItemCount()):
+    temp_folder = "konversi_data_temp"
+    if not os.path.exists(temp_folder):
+        os.makedirs(temp_folder)
+
+    total_files = self.ui.daftarInputFiles_treeWidget.topLevelItemCount()
+    self.ui.progressBar.setValue(0)
+
+    for index in range(total_files):
         item = self.ui.daftarInputFiles_treeWidget.topLevelItem(index)
-        file_path = item.toolTip(0)  # Mengambil path file dari tooltip
+        file_path = item.toolTip(0)
+
+        # Pengecekan format file
+        if file_path.endswith('.xls'):
+            base_name = os.path.basename(file_path).replace('.xls', '.xlsx')
+            dest_file_path = os.path.join(temp_folder, base_name)
+            success, error_message = konversi_xls_ke_xlsx(file_path, dest_file_path)
+            if success:
+                file_path = dest_file_path  # Gunakan file yang sudah dikonversi
+            else:
+                failed_files.append(error_message)
+                QtWidgets.QMessageBox.critical(self, "Error", error_message)
+                if not self.confirm_continue():
+                    break
+
         try:
             self.import_excel_with_progress(file_path, failed_files)
-            processed_files.append(os.path.basename(file_path))  # Menambahkan nama file yang berhasil diproses ke list
+            processed_files.append(os.path.basename(file_path))
         except openpyxl.utils.exceptions.InvalidFileException:
-            error_message = f"{os.path.basename(file_path)}: Format file excel .xls tidak didukung, gunakan format Excel .xlsx"
+            error_message = f"{os.path.basename(file_path)}: Format file tidak didukung, gunakan format Excel .xls atau .xlsx"
             failed_files.append(error_message)
             QtWidgets.QMessageBox.critical(self, "Error", error_message)
             if not self.confirm_continue():
@@ -43,22 +77,33 @@ def start_import_excel(self):
             if not self.confirm_continue():
                 break
 
-    # Menulis hasil log ke file log
+        # Mengupdate nilai progress bar setelah setiap file diproses
+        progress_value = int(((index + 1) / total_files) * 100)
+        self.ui.progressBar.setValue(progress_value)
+        QtWidgets.QApplication.processEvents()  # Memproses event agar progress bar terlihat
+
     with open(log_file_path, 'w') as log_file:
         log_file.write("File Excel yang berhasil diproses:\n")
         for file in processed_files:
             log_file.write(file + '\n')
-        log_file.write("\nBaris Excel yang gagal diproses karena DATA TIDAK VALID:\n")
+        log_file.write("\nBaris Excel yang gagal diproses karena DATA TIDAK VALID (bukan angka atau desimal):\n")
         for error in failed_files:
             log_file.write(error + '\n')
 
-    # Menampilkan pesan ringkasan setelah semua file selesai diproses
     if processed_files:
         QtWidgets.QMessageBox.information(self, 'Berhasil', f'{len(processed_files)} file Excel .xlsx telah disalin dan disesuaikan isi datanya:\n' + '\n'.join(processed_files))
 
-    # Opsional: Menampilkan pesan jika ada file yang gagal diproses
     if failed_files:
-        QtWidgets.QMessageBox.warning(self, 'Gagal', f'{len(failed_files)} Total Baris Excel yang gagal diproses karena DATA SUHU TIDAK VALID.\nLihat "{log_file_path}" untuk detailnya.')
+        QtWidgets.QMessageBox.warning(self, 'Gagal', f'{len(failed_files)} Total Baris Excel yang gagal diproses karena DATA SUHU bukan angka atau desimal.\nLihat "{log_file_path}" untuk detailnya.')
+
+    # Menghapus folder konversi_data_temp setelah semua proses selesai
+    hapus_folder_konversi(temp_folder)
+
+def hapus_folder_konversi(folder_path):
+    try:
+        shutil.rmtree(folder_path)
+    except Exception as e:
+        QtWidgets.QMessageBox.critical(None, "Error", f"Gagal menghapus folder {folder_path}. Error: {str(e)}")
 
 def confirm_continue(self):
     reply = QtWidgets.QMessageBox.question(self, "Konfirmasi", 
@@ -67,12 +112,10 @@ def confirm_continue(self):
     return reply == QtWidgets.QMessageBox.StandardButton.Yes
 
 def import_excel_with_progress(self, file_path, failed_files):
-    # Membuat folder temp jika belum ada
     temp_folder = "hasil data"
     if not os.path.exists(temp_folder):
         os.makedirs(temp_folder)
 
-    # Memeriksa jika file sudah ada dan memberikan opsi ke pengguna
     base_name = os.path.basename(file_path)
     temp_file_path = os.path.join(temp_folder, base_name)
     increment = 0
@@ -91,21 +134,17 @@ def import_excel_with_progress(self, file_path, failed_files):
         elif reply == QtWidgets.QMessageBox.StandardButton.YesToAll:
             self.auto_overwrite = True
 
-    # Menyalin file Excel ke folder temp
     try:
         shutil.copy(file_path, temp_file_path)
     except (PermissionError, OSError) as e:
-        # Menampilkan pesan error jika terjadi masalah dengan izin file atau file sedang digunakan
         QtWidgets.QMessageBox.critical(self, "Error", f"Tidak dapat menyalin file excel karena kamu sedang membuka atau menggunakan filenya atau file tidak ada !! : {str(e)}")
         return
 
-    # Membuka file Excel yang disalin
     try:
         wb = openpyxl.load_workbook(temp_file_path)
         ws = wb["Sheet1"]
         ws_data = wb["DATA"]
     except (PermissionError, OSError) as e:
-        # Menampilkan pesan error jika terjadi masalah dengan izin file atau file sedang digunakan
         QtWidgets.QMessageBox.critical(self, "Error", f"Tidak dapat menggunakan file excel karena kamu sedang membuka atau menggunakan filenya atau file tidak ada !!! : {str(e)}")
         return
 
@@ -191,7 +230,6 @@ def import_excel_with_progress(self, file_path, failed_files):
                     data_suhu_waktu[label]['suhu'].append(suhu)
                     ws[f'{kolom_waktu}{i + 3}'].fill = self.fill_suhu1
                     sel_suhu.fill = self.fill_suhu1
-
 
         # Mengupdate nilai progress bar di dalam loop
         progress_value = int((i / total_rows) * 100)
