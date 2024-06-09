@@ -7,23 +7,28 @@ from Utilities.dragndrop_files_func import *
 import logging
 from datetime import datetime
 
-# Menambahkan timestamp pada nama file log
-timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 log_folder = "LOG"
-log_filename = f'{log_folder}/konversi_xls_xlsx_log_{timestamp}.txt'
+log_filename = ""
 
-# Memastikan folder LOG sudah ada atau membuatnya jika belum ada
-if not os.path.exists(log_folder):
-    os.makedirs(log_folder)
+def setup_logging():
+    global log_filename
+    if not log_filename:  # Only set up logging if it hasn't been done yet
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        log_filename = f'{log_folder}/konversi_log_{timestamp}.txt'
 
-logging.basicConfig(
-    filename=log_filename,
-    level=logging.ERROR,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
+        # Memastikan folder LOG sudah ada atau membuatnya jika belum ada
+        if not os.path.exists(log_folder):
+            os.makedirs(log_folder)
+
+        logging.basicConfig(
+            filename=log_filename,
+            level=logging.ERROR,
+            format='%(asctime)s - %(levelname)s - %(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S'
+        )
 
 def log_error(message):
+    setup_logging()
     logging.error(message)
 
 class BatchConvertApp(QtWidgets.QMainWindow):
@@ -78,7 +83,7 @@ class BatchConvertApp(QtWidgets.QMainWindow):
             else:
                 raise Exception("Tidak ada file yang dipilih.")
         except Exception as e:
-            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
+            self.show_message_box("Peringatan", f"{str(e)}", QtWidgets.QMessageBox.Icon.Warning)
 
     def select_output_folder(self):
         try:
@@ -88,7 +93,7 @@ class BatchConvertApp(QtWidgets.QMainWindow):
             else:
                 raise Exception("Tidak ada folder yang dipilih.")
         except Exception as e:
-            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
+            self.show_message_box("Peringatan", f"{str(e)}", QtWidgets.QMessageBox.Icon.Warning)
 
     def open_output_folder(self):
         try:
@@ -97,7 +102,7 @@ class BatchConvertApp(QtWidgets.QMainWindow):
             else:
                 raise Exception("Folder output belum dipilih.")
         except Exception as e:
-            self.show_message_box("Peringatan", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Warning)
+            self.show_message_box("Peringatan", f"{str(e)}", QtWidgets.QMessageBox.Icon.Warning)
 
     def convert_xls_to_xlsx(self, source_file, dest_file):
         excel = win32.gencache.EnsureDispatch('Excel.Application')
@@ -107,6 +112,7 @@ class BatchConvertApp(QtWidgets.QMainWindow):
             wb.Close()
             return True, None
         except Exception as e:
+            log_error(f"Gagal mengonversi {source_file} ke {dest_file}. Error: {str(e)}")
             return False, f"Gagal mengonversi {source_file}. Error: {str(e)}"
         finally:
             excel.Application.Quit()
@@ -158,7 +164,7 @@ class BatchConvertApp(QtWidgets.QMainWindow):
                     self.ui.lokasiTujuan_treeWidget.addTopLevelItem(item)
                     successful_conversions += 1
                 else:
-                    self.show_message_box('Gagal', f'Gagal mengonversi {source_file}. Error: {error}', QtWidgets.QMessageBox.Icon.Critical)
+                    self.show_message_box('Gagal', f'Gagal mengonversi {source_file}. Error: {error}', QtWidgets.QMessageBox.Icon.Warning)
                 self.ui.progressBar.setValue(int((index + 1) / total_files * 100))
 
             if successful_conversions == total_files:
@@ -166,10 +172,10 @@ class BatchConvertApp(QtWidgets.QMainWindow):
             else:
                 self.show_message_box('Selesai', f'Proses konversi selesai. {successful_conversions} dari {total_files} file berhasil dikonversi.', QtWidgets.QMessageBox.Icon.Information)
         except Exception as e:
-            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
+            log_error(f"Proses konversi gagal. Error: {str(e)}")
+            self.show_message_box("Peringatan", f"{str(e)}", QtWidgets.QMessageBox.Icon.Warning)
 
     def show_message_box(self, title, message, icon):
-        log_error(f"{title}: {message}")
         msg = QtWidgets.QMessageBox(self)
         msg.setIcon(icon)
         msg.setWindowTitle(title)
@@ -197,7 +203,7 @@ class BatchConvertApp(QtWidgets.QMainWindow):
             elif action == delete_selected_files_action:
                 self.delete_selected_files(self.ui.lokasiSumber_treeWidget, self.source_files)
         except Exception as e:
-            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
+            self.show_message_box("Peringatan", f"{str(e)}", QtWidgets.QMessageBox.Icon.Warning)
 
     def show_output_context_menu(self, position):
         try:
@@ -220,7 +226,7 @@ class BatchConvertApp(QtWidgets.QMainWindow):
             elif action == delete_selected_files_action:
                 self.delete_selected_files(self.ui.lokasiTujuan_treeWidget, [])
         except Exception as e:
-            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
+            self.show_message_box("Peringatan", f"{str(e)}", QtWidgets.QMessageBox.Icon.Warning)
 
     def open_selected_file(self, treeWidget):
         try:
@@ -235,7 +241,7 @@ class BatchConvertApp(QtWidgets.QMainWindow):
             else:
                 raise Exception("Tidak ada file yang dipilih.")
         except Exception as e:
-            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
+            self.show_message_box("Peringatan", f"{str(e)}", QtWidgets.QMessageBox.Icon.Warning)
 
     def open_selected_folder(self, treeWidget, folder_path):
         try:
@@ -244,7 +250,7 @@ class BatchConvertApp(QtWidgets.QMainWindow):
             else:
                 raise Exception(f"Folder tidak ditemukan: {folder_path}")
         except Exception as e:
-            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
+            self.show_message_box("Peringatan", f"{str(e)}", QtWidgets.QMessageBox.Icon.Warning)
 
     def delete_all_files(self, treeWidget, files_list):
         try:
@@ -258,7 +264,7 @@ class BatchConvertApp(QtWidgets.QMainWindow):
                 treeWidget.clear()
                 files_list.clear()
         except Exception as e:
-            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
+            self.show_message_box("Peringatan", f"{str(e)}", QtWidgets.QMessageBox.Icon.Warning)
 
     def delete_selected_files(self, treeWidget, files_list):
         try:
@@ -280,7 +286,7 @@ class BatchConvertApp(QtWidgets.QMainWindow):
             else:
                 raise Exception("Tidak ada file yang dipilih.")
         except Exception as e:
-            self.show_message_box("Error", f"Terjadi kesalahan: {str(e)}", QtWidgets.QMessageBox.Icon.Critical)
+            self.show_message_box("Peringatan", f"{str(e)}", QtWidgets.QMessageBox.Icon.Warning)
 
     # Metode drag drop file dari Utilities\dragndrop_files_func.py
     dragEnterEvent = dragEnterEvent
@@ -288,9 +294,8 @@ class BatchConvertApp(QtWidgets.QMainWindow):
     dropEvent_convert_xls_xlsx = dropEvent_convert_xls_xlsx
     fileExists_convert_xls_xlsx = fileExists_convert_xls_xlsx
 
-
-# if __name__ == "__main__":
-#     app = QtWidgets.QApplication(sys.argv)
-#     window = BatchConvertApp()
-#     window.show()
-#     sys.exit(app.exec())
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    window = BatchConvertApp()
+    window.show()
+    sys.exit(app.exec())
