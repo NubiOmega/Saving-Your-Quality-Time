@@ -2,36 +2,44 @@ import os
 import subprocess
 from PyQt6 import QtWidgets, QtCore
 from Utilities.dragndrop_files_func import *
+from Utilities.pengaturan_func import *
+from PyQt6 import QtWidgets, QtCore
 
 def browse_files(self):
     try:
+        selected_folder = baca_pengaturan_folder()
+        
         file_dialog = QtWidgets.QFileDialog(self)
         file_dialog.setWindowTitle("Pilih File Excel atau Folder")
         file_dialog.setFileMode(QtWidgets.QFileDialog.FileMode.ExistingFiles)
         file_dialog.setViewMode(QtWidgets.QFileDialog.ViewMode.List)
-        file_dialog.setNameFilter("Excel Files (*xls *.xlsx)")
+        file_dialog.setNameFilter("Excel Files (*.xls *.xlsx)")
+        
+        if selected_folder:
+            file_dialog.setDirectory(selected_folder)
+        
         if file_dialog.exec():
             file_paths = file_dialog.selectedFiles()
+            if file_paths:
+                last_selected_folder = os.path.dirname(file_paths[0])
+                simpan_pengaturan_folder(last_selected_folder)
+                
             for file_path in file_paths:
                 file_info = QtCore.QFileInfo(file_path)
                 
-                # Mengambil informasi file
                 file_name = file_info.fileName()
                 file_modified_date = file_info.lastModified().toString(QtCore.Qt.DateFormat.ISODate)
                 file_type = file_info.suffix()
                 file_size = f"{file_info.size() / 1024:.2f} KB"
                 
-                # Cek apakah file sudah ada dalam daftar
                 if self.fileExists(file_path):
                     QtWidgets.QMessageBox.warning(self, "File Duplikat", f"File '{file_path}' sudah ada dalam daftar.")
                     continue
                 
-                # Membuat item baru dengan informasi file
                 item = QtWidgets.QTreeWidgetItem([file_name, file_modified_date, file_type, file_size])
-                item.setToolTip(0, file_path)  # Mengatur tooltip untuk item
-                self.ui.daftarInputFiles_treeWidget.addTopLevelItem(item)  # Menambahkan item ke daftarInputFiles_treeWidget
+                item.setToolTip(0, file_path)
+                self.ui.daftarInputFiles_treeWidget.addTopLevelItem(item)
             
-            # Mengatur ukuran kolom sesuai dengan isi konten setelah semua item ditambahkan
             for i in range(self.ui.daftarInputFiles_treeWidget.columnCount()):
                 self.ui.daftarInputFiles_treeWidget.resizeColumnToContents(i)
     except Exception as e:

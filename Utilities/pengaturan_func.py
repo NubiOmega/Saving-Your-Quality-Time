@@ -144,3 +144,28 @@ def pilih_warna_holding_time(self):
         hex_color = color.name()  # Mendapatkan warna dalam format hex
         # Set warna yang dipilih ke label
         self.ui.pilihWarnaHoldingTime_btn.setStyleSheet(f"background-color: {hex_color};")
+
+def baca_pengaturan_folder():
+    config = ConfigParser()
+    try:
+        config.read('pengaturan_app.conf')
+        if 'Pengaturan Folder' in config:
+            selected_folder = config.get('Pengaturan Folder', 'SelectedFolder', fallback='')
+            return selected_folder
+        else:
+            return ''
+    except Exception as e:
+        QtWidgets.QMessageBox.critical(None, "Error", f"Terjadi kesalahan saat membaca pengaturan folder: {e}")
+        return ''
+
+def simpan_pengaturan_folder(folder):
+    try:
+        config = ConfigParser()
+        config.read('pengaturan_app.conf')
+        if not config.has_section('Pengaturan Folder'):
+            config.add_section('Pengaturan Folder')
+        config.set('Pengaturan Folder', 'SelectedFolder', folder)
+        with open('pengaturan_app.conf', 'w') as configfile:
+            config.write(configfile)
+    except Exception as e:
+        QtWidgets.QMessageBox.critical(None, "Error", f"Terjadi kesalahan saat menyimpan pengaturan folder: {e}")
