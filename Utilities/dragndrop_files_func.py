@@ -27,8 +27,12 @@ def dropEvent(self, event):
             event.accept()
             urls = event.mimeData().urls()
             for url in urls:
-                if url.isLocalFile() and url.toLocalFile().endswith(('.xls', '.xlsx')):
+                if url.isLocalFile():
                     file_path = url.toLocalFile()
+                    if not file_path.endswith(('.xls', '.xlsx')):
+                        QtWidgets.QMessageBox.warning(self, "Format File Salah", "File yang dimasukkan bukan file Excel .xls atau .xlsx.")
+                        continue
+
                     file_info = QtCore.QFileInfo(file_path)
                     
                     # Mengambil informasi file
